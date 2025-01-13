@@ -1,0 +1,40 @@
+body {
+    background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+}
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 90%;
+    margin: auto;
+}
+.login-card .logo {
+    font-size: 24px;
+    color: #2C3E50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-control {
+    padding: 12px;
+    margin-bottom: 20px;
+}
+.btn-primary {
+    background: #3498DB;
+    border: none;
+    padding: 12px;
+    width: 100%;
+}
+.forgot-password {
+    color: #3498DB;
+    text-decoration: none;
+    font-size: 14px;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+}
