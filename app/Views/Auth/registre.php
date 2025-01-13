@@ -1,3 +1,30 @@
+<?php
+
+require_once("../../../vendor/autoload.php");
+use App\Controllers\Auth\AuthController;
+
+
+
+if(isset($_POST["submit"]))
+{
+
+    if(empty($_POST["nom"]) && empty($_POST["email"]) && empty($_POST["password"]))
+    {
+        echo "email or password is empty";
+    }
+    else{
+        $nom = $_POST["nom"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $type = $_POST["type"];
+
+        $authController = new AuthController();
+        $authController->Registre_condidat($nom, $email, $password, $type);
+
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,10 +54,11 @@
 
             <!-- Formulaire Enseignant -->
             <form id="teacherForm" method="POST" action="">
-                <input type="text" class="form-control" name="Nom" placeholder="Nom">
+                <input type="text" class="form-control" name="nom" placeholder="Nom">
                 <input type="email" class="form-control" name="email" placeholder="Email">
                 <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                <input hidden type="text" name="type" value="teacher">
+                <input hidden type="text" name="type" value="Enseignant">
+                <input hidden type="password" name="submit" value="submit">
 
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="termsTeacher">
@@ -44,9 +72,11 @@
 
             <!-- Formulaire Étudiant -->
             <form id="studentForm" method="POST" action="">
+                <input type="text" class="form-control" name="nom" placeholder="Nom">
                 <input type="email" class="form-control" name="email" placeholder="Email">
                 <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                <input hidden type="text" name="type" value="student">
+                <input hidden type="text" name="type" value="Etudiant">
+                <input hidden type="password" name="submit" value="submit">
 
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="termsStudent">
@@ -59,7 +89,7 @@
             </form>
 
             <div class="text-center mt-4">
-                <p>Déjà inscrit ? <a href="login.html">Connectez-vous</a></p>
+                <p>Déjà inscrit ? <a href="login.php">Connectez-vous</a></p>
             </div>
         </div>
     </div>

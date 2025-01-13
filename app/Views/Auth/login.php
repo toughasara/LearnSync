@@ -1,3 +1,29 @@
+<?php
+
+require_once("../../../vendor/autoload.php");
+use App\Controllers\Auth\AuthController;
+
+if(isset($_POST["submit"]))
+{
+
+    if(empty($_POST["email"]) && empty($_POST["password"]))
+    {
+        
+        echo "email or password is empty";
+    }
+    else{
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        
+        $authController = new AuthController();
+        $authController->login($email, $password);
+
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,7 +60,7 @@
             </form>
 
             <div class="text-center mt-4">
-                <p>Pas encore de compte ? <a href="registre.html">Inscrivez-vous</a></p>
+                <p>Pas encore de compte ? <a href="registre.php">Inscrivez-vous</a></p>
             </div>
         </div>
     </div>
