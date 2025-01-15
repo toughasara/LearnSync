@@ -71,19 +71,6 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <tr>
-                                    <td>Marie Martin</td>
-                                    <td>marie.martin@email.com</td>
-                                    <td>14/01/2024</td>
-                                    <td><span class="status-badge status-suspended">Suspended</span></td>
-                                    <td>
-                                        <a href="#" class="action-btn activate-btn"><i class="bi bi-check-circle"></i></a>
-                                        <a href="#" class="action-btn suspend-btn"><i class="bi bi-pause-circle"></i></a>
-                                        <a href="#" class="action-btn delete-btn"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody> -->
                             <tbody>
                                 <?php if ($enseignants): ?>
                                     <?php foreach ($enseignants as $enseignant): ?>
@@ -94,9 +81,11 @@
                                             <?php echo '<td>' . $enseignant->getCreatedAt(). '</td>' ?>
                                             <?php echo '<td><span class="status-badge status-' . $enseignant->getStatus() . '">' . $enseignant->getStatus() . '</span></td>'; ?>
                                             <td>
-                                                <a href="#" class="action-btn activate-btn"><i class="bi bi-check-circle"></i></a>
                                                 <a href="#" class="action-btn suspend-btn"><i class="bi bi-pause-circle"></i></a>
                                                 <a href="affichens.php?id=<?php echo $enseignant->getId(); ?>" class="action-btn delete-btn"><i class="bi bi-trash"></i></a>
+                                                <?php if ($enseignant->getStatus() !== 'active'): ?>
+                                                    <a href="#" class="action-btn activate-btn"><i class="bi bi-check-circle"></i></a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -122,18 +111,6 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <tr>
-                                    <td>Sophie Bernard</td>
-                                    <td>sophie.bernard@email.com</td>
-                                    <td>13/01/2024</td>
-                                    <td><span class="status-badge status-inactive">Inactive</span></td>
-                                    <td>
-                                        <a href="#" class="action-btn suspend-btn"><i class="bi bi-pause-circle"></i></a>
-                                        <a href="#" class="action-btn delete-btn"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody> -->
                             <tbody>
                                 <?php if ($etudiants): ?>
                                     <?php foreach ($etudiants as $etudiant): ?>
