@@ -87,10 +87,6 @@
                             </form>
                     <?php endif; ?>
                 </div>
-                <div class="modal-footer">
-                    <a href="tags.html" class="btn btn-secondary">Annuler</a>
-                    <a href="tags.html" class="btn btn-primary">Ajouter</a>
-                </div>
             </div>
         </div>
     </div>
