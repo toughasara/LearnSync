@@ -1,20 +1,20 @@
-<?php
+<!-- <?php
 
-    session_start();
-    require_once("../../../../vendor/autoload.php");
-    use App\Controllers\CategorieController;
+    // session_start();
+    // require_once("../../../../vendor/autoload.php");
+    // use App\Controllers\CategorieController;
 
-    $categorieController = new CategorieController();
+    // $categorieController = new CategorieController();
 
-    $categories = $categorieController->getCategories();
+    // $categories = $categorieController->getCategories();
 
-    if (isset($_GET['id'])) {
-        $category_id = $_GET['id'];
-        $categorieController->deleteCategoryById($category_id);
-        $categories = $categorieController->getCategories();
-    }
+    // if (isset($_GET['id'])) {
+    //     $category_id = $_GET['id'];
+    //     $categorieController->deleteCategoryById($category_id);
+    //     $categories = $categorieController->getCategories();
+    // }
 
-?>
+?> -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>

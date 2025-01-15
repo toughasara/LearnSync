@@ -1,0 +1,80 @@
+.add-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.add-btn:hover {
+    background-color: #2980B9;
+    transform: translateY(-2px);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.table thead {
+    background-color: var(--light-gray);
+}
+
+.action-btn {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.edit-btn {
+    color: var(--secondary-color);
+}
+
+.edit-btn:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.delete-btn {
+    color: var(--accent-color);
+}
+
+.delete-btn:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .add-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .action-btn {
+        padding: 0.3rem;
+    }
+}
