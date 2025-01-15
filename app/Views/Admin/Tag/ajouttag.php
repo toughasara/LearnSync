@@ -27,7 +27,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tags - CareerLink</title>
+    <title>Tags - Youdemy</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assests/css/admin/dashbord.css">
@@ -36,13 +36,13 @@
 <body>
     <!-- Sidebar -->
     <div id="sidebar" class="p-3">
-        <h3 class="text-white mb-4 px-2">CareerLink</h3>
+        <h3 class="text-white mb-4 px-2">Youdemy</h3>
         <nav class="nav flex-column">
             <a href="../statistique.php" class="nav-link">
                 <i class="bi bi-graph-up"></i> Statistiques
             </a>
-            <a href="../offremploie.php" class="nav-link">
-                <i class="bi bi-briefcase"></i> Offres d'emploi
+            <a href="../Utilisateur/affichens.php" class="nav-link">
+                <i class="bi bi-briefcase"></i> Utilisateurs
             </a>
             <a href="../Categorie/categories.php" class="nav-link">
                 <i class="bi bi-grid"></i> Catégories

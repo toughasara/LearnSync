@@ -1,0 +1,109 @@
+.search-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.category-badge {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.archive-btn {
+    color: var(--accent-color);
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.archive-btn:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.company-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+}
+.job-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.publication-date {
+    color: #2ecc71;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(46, 204, 113, 0.1);
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.company-tag {
+    background-color: #fde8e8;
+    color: #e74c3c;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.skill-tag {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    margin: 0.25rem;
+    display: inline-block;
+}
+.archive-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    transition: all 0.2s ease;
+}
+
+.archive-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}

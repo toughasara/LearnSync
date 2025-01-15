@@ -47,8 +47,8 @@
             <a href="../statistique.php" class="nav-link">
                 <i class="bi bi-graph-up"></i> Statistiques
             </a>
-            <a href="../offremploie.php" class="nav-link">
-                <i class="bi bi-briefcase"></i> Offres d'emploi
+            <a href="../Utilisateur/affichens.php" class="nav-link">
+                <i class="bi bi-briefcase"></i> Utilisateurs
             </a>
             <a href="../Categorie/categories.php" class="nav-link active">
                 <i class="bi bi-grid"></i> Catégories
