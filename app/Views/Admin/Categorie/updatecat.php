@@ -5,22 +5,18 @@
     
     $categorieController = new CategorieController();
 
-    // $categories = $categorieController->getCategories();
 
     if (isset($_GET['id'])) {
         $category_id = $_GET['id'];
         $categorie = $categorieController->trouvercategorie($category_id);
     }
     if(isset($_POST["submit"])){
-        
-        // var_dump($category_id);
-        // exit;
 
-            $nom = $_POST["name"];
-            $description = $_POST["description"];
-            $categorieController->updateCategorie($category_id, $nom , $description);
-            header("Location: categories.php");
-            exit;
+        $nom = $_POST["name"];
+        $description = $_POST["description"];
+        $categorieController->updateCategorie($category_id, $nom , $description);
+        header("Location: categories.php");
+        exit;
         
     }
 ?>
@@ -67,7 +63,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="fw-bold mb-0">Catégories</h1>
-                    <p class="mb-0">Gérez les catégories d'emploi</p>
+                    <p class="mb-0">Gérez les catégories des cours</p>
                 </div>
             </div>
         </div>

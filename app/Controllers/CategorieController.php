@@ -15,10 +15,7 @@ class CategorieController{
     // ajouter une categorie
     public function addcategorie($nom,$description){
         $categorie = new Categorie(null, $nom,$description);
-        // $admine->ajouterCategorie($categorie);
-
         $this->categorieModel->savecategorie($categorie);
-
     }
 
     // get tout les categories
@@ -26,27 +23,13 @@ class CategorieController{
         return $this->categorieModel->getAllCategories();
     }
 
+    // modifier une categorie
     public function updateCategorie($category_id, $nom , $description){
         $categorie = new Categorie($category_id ,$nom ,$description);
         $this->categorieModel->updateCategorie($categorie);
     }
 
-    // modification de categorie
-    // public function updateCategorie($category_id, $nom , $description){
-    //     // var_dump($category_id);
-    //     // exit;
-    //     $id = $category_id;
-
-    //     $categorie = $admine->trouverCategorieParId($id);
-
-    //     if ($categorie !== null) {
-    //         $categorie->setNom($nom);
-    //         $categorie->setDescription($description);
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
+    // trouver une categorie
     public function trouvercategorie($category_id){
         $id = $category_id;
         return $this->categorieModel->trouvercategorie($id);
@@ -55,24 +38,7 @@ class CategorieController{
     // supprimer une categorie 
     public function deleteCategoryById($category_id){
         $id = $category_id;
-
         $this->categorieModel->supprimerCayegorie($id);
-
-        // $categorieASupprimer = $admine->trouverCategorieParId($id);
-
-        // $categories = $admine->getCategories();
-
-        // if ($categorie !== null) {
-        //     foreach ($this->categories as $index => $categorie) {
-        //         if ($categorie === $categorieASupprimer) {
-        //             unset($this->categories[$index]);
-        //             $this->categories = array_values($this->categories);
-        //             return true;
-        //         }
-        //     }
-        //     return false; 
-        // }
-        // return false;
     }
 
 }

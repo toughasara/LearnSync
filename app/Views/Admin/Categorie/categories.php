@@ -57,7 +57,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="fw-bold mb-0">Catégories</h1>
-                    <p class="mb-0">Gérez les catégories d'emploi</p>
+                    <p class="mb-0">Gérez les catégories des cours</p>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2>Liste des catégories</h2>
-                        <a href="ajout.php" class="add-btn">
+                        <a href="ajoutcat.php" class="add-btn">
                             <i class="bi bi-plus-lg me-2"></i> Ajouter une catégorie
                         </a>
                     </div>
@@ -89,7 +89,7 @@
                                             <?php echo '<td>' . $category->getNom(). '</td>' ?>
                                             <?php echo '<td>' . $category->getDescription(). '</td>' ?>
                                             <td>
-                                                <a href="update.php?id=<?php echo $category->getId(); ?>" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                                <a href="updatecat.php?id=<?php echo $category->getId(); ?>" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
                                                 <a href="categories.php?id=<?php echo $category->getId(); ?>" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
                                             </td>
                                         </tr>

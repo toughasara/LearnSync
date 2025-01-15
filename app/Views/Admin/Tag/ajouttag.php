@@ -1,21 +1,24 @@
 <?php
-    require_once("../../../vendor/autoload.php");
-    use App\Controllers\Auth\AuthController;
+    session_start();
+
+    require_once("../../../../vendor/autoload.php");
+    use App\Controllers\TagController;
+
+    $tagController = new TagController();
     
-    
-    if($_SERVER["REQUEST_METHOD"] == "POST")
+    if(isset($_POST["submit"]))
     {
-        if(empty($_POST["name"]) && empty($_POST["description"]))
+        if(empty($_POST["name"]))
         {
-            echo "name or description is empty";
+            echo "name is empty";
         }
         else{
-            $name = $_POST["name"];
-            $description = $_POST["description"];
-    
-            $userModel = new UserModel();
-            $userModel->savetag($name, $description);
-    
+            $nom = $_POST["name"];
+
+            $tagController->addtag($nom);
+
+            header("Location: tags.php");
+            exit;
         }
     }
 ?>
@@ -68,24 +71,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ajouter un tag</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title">Ajouter une tag</h5>
                 </div>
                 <div class="modal-body">
-                    <form id="addTagForm">
+                    <form id="addTagForm" action="" method="POST">
                         <div class="mb-3">
                             <label for="tagName" class="form-label">Nom du tag</label>
-                            <input type="text" class="form-control" id="tagName" required>
+                            <input type="text" class="form-control" name="name" id="tagName" required>
+                            <input hidden type="password" class="form-control" name="submit" value="submit">
                         </div>
-                        <div class="mb-3">
-                            <label for="tagDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="tagDescription" rows="3"></textarea>
+                        <div class="modal-footer">
+                            <a type="submit" href="tags.php" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <a href="tags.html" class="btn btn-secondary">Annuler</a>
-                    <a href="tags.html" class="btn btn-primary">Ajouter</a>
                 </div>
             </div>
         </div>

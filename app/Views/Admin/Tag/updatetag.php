@@ -1,3 +1,25 @@
+<?php
+    session_start();
+    require_once("../../../../vendor/autoload.php");
+    use App\Controllers\TagController;
+    
+    $tagController = new TagController();
+
+
+    if (isset($_GET['id'])) {
+        $tag_id = $_GET['id'];
+        $tag = $tagController->trouvertag($tag_id);
+    }
+    if(isset($_POST["submit"])){
+
+        $nom = $_POST["name"];
+
+        $tagController->updatetag($tag_id, $nom);
+        header("Location: tags.php");
+        exit;
+        
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -51,16 +73,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addTagForm">
-                        <div class="mb-3">
-                            <label for="tagName" class="form-label">Nom du tag</label>
-                            <input type="text" class="form-control" id="tagName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tagDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="tagDescription" rows="3"></textarea>
-                        </div>
-                    </form>
+                <?php if ($tag): ?>
+                            <form id="addCategoryForm" action="" method="POST">
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Nom de la catégorie</label>
+                                    <input value="<?php echo $tag->getNom(); ?>" type="text" name="name" class="form-control" id="categoryName" required>
+                                    <input hidden value="submit" type="password" class="form-control" name="submit">
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="tags.php" class="btn btn-secondary">Annuler</a>
+                                    <button type="submit" class="btn btn-primary">Modifier</button>
+                                </div>
+                            </form>
+                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <a href="tags.html" class="btn btn-secondary">Annuler</a>

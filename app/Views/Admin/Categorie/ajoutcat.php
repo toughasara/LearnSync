@@ -13,10 +13,10 @@
             echo "name or description is empty";
         }
         else{
-            $nom = $_POST["name"];
+            $noms = $_POST["name"];
             $description = $_POST["description"];
 
-            $categorieController->addcategorie($nom, $description);
+            $categorieController->addcategorie($noms, $description);
 
             header("Location: categories.php");
             exit;
@@ -66,7 +66,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="fw-bold mb-0">Catégories</h1>
-                    <p class="mb-0">Gérez les catégories d'emploi</p>
+                    <p class="mb-0">Gérez les catégories des cours</p>
                 </div>
             </div>
         </div>

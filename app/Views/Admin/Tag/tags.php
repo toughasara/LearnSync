@@ -1,3 +1,20 @@
+<?php
+
+
+    require_once("../../../../vendor/autoload.php");
+    use App\Controllers\TagController;
+
+    $tagController = new TagController();
+
+    $tags = $tagController->getTags();
+
+    if (isset($_GET['id'])) {
+        $tag_id = $_GET['id'];
+        $categorieController->deleteTagById($tag_id);
+        $tags = $tagController->getTags();
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,8 +64,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2>Liste des tags</h2>
-                        <a href="update.html" class="add-btn">
-                            <i class="bi bi-plus-lg me-2"></i> Ajouter un tag
+                        <a href="ajouttag.php" class="add-btn">
+                            <i class="bi bi-plus-lg me-2"></i> Ajouter une tag
                         </a>
                     </div>
                     <div class="table-responsive">
@@ -56,35 +73,22 @@
                             <thead>
                                 <tr>
                                     <th>Nom</th>
-                                    <th>Nombre d'offres</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>PHP</td>
-                                    <td>28</td>
-                                    <td>
-                                        <a href="update.html" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                        <a href="update.html" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>JavaScript</td>
-                                    <td>35</td>
-                                    <td>
-                                        <a href="update.html" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                        <a href="update.html" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Marketing Digital</td>
-                                    <td>20</td>
-                                    <td>
-                                        <a href="update.html" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                        <a href="update.html" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
+                                <?php if ($tags): ?>
+                                    <?php foreach ($tags as $tag): ?>
+                                        <tr>
+                                        <input type="hidden" name="id" value="<?= $tag->getId() ?>">
+                                            <?php echo '<td>' . $tag->getNom(). '</td>' ?>
+                                            <td>
+                                                <a href="updatetag.php?id=<?php echo $tag->getId(); ?>" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                                <a href="tags.php?id=<?php echo $tag->getId(); ?>" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

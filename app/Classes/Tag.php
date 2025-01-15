@@ -5,12 +5,10 @@ namespace App\Classes;
 class Tag {
     public $id;
     private $nom;
-    private $description;
     
-    public function __construct($id=null, $nom, $description) {
+    public function __construct($id=null, $nom) {
             $this->id = $id;
             $this->nom = $nom;
-            $this->description = $description;
     }
 
     public function getId(){
@@ -21,16 +19,9 @@ class Tag {
         return $this->nom;
     }
 
-    public function getDescription(){
-        return $this->description;
-    }
 
     public function setNom($nom) {
         $this->nom = $nom;
     }
 
-    public function setDescription($description) {
-        $this->description = $description;
-    }
-    
 }
