@@ -5,7 +5,7 @@
     
     $categorieController = new CategorieController();
 
-    $categories = $categorieController->getCategories();
+    // $categories = $categorieController->getCategories();
 
     if (isset($_GET['id'])) {
         $category_id = $_GET['id'];
@@ -16,9 +16,9 @@
         // var_dump($category_id);
         // exit;
 
-            $name = $_POST["name"];
+            $nom = $_POST["name"];
             $description = $_POST["description"];
-            $categorieController->updateCategorie($category_id, $name , $description);
+            $categorieController->updateCategorie($category_id, $nom , $description);
             header("Location: categories.php");
             exit;
         
@@ -29,7 +29,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catégories - CareerLink</title>
+    <title>Catégories - Youdemy</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assests/css/admin/dashbord.css">
@@ -43,7 +43,7 @@
 
     <!-- Sidebar -->
     <div id="sidebar" class="p-3">
-        <h3 class="text-white mb-4 px-2">CareerLink</h3>
+        <h3 class="text-white mb-4 px-2">Youdemy</h3>
         <nav class="nav flex-column">
             <a href="../statistique.php" class="nav-link">
                 <i class="bi bi-graph-up"></i> Statistiques
