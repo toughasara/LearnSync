@@ -10,7 +10,7 @@ if(isset($_POST["submit"]))
 
     if(empty($_POST["nom"]) && empty($_POST["email"]) && empty($_POST["password"]))
     {
-        echo "email or password is empty";
+        echo "is empty";
     }
     else{
         $nom = $_POST["nom"];
@@ -19,7 +19,7 @@ if(isset($_POST["submit"]))
         $type = $_POST["type"];
 
         $authController = new AuthController();
-        $authController->Registre_condidat($nom, $email, $password, $type);
+        $authController->Registre($nom, $email, $password, $type);
 
     }
 }

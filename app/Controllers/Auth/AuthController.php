@@ -2,13 +2,7 @@
 
 namespace App\Controllers\Auth;
 
-use App\Classes\admin;
-use App\Classes\Enseignant;
-use App\Classes\Etudiant;
-use App\Classes\Utilisateur;
-use App\Classes\Role;
 use App\Models\UserModel;
-use PDO;
 
 class AuthController{
 
@@ -20,22 +14,57 @@ class AuthController{
 
     public function login($email, $password){
 
-        $user = $this->userModel->findUserByEmailAndPassword($email, $password);
+        $Utilisateur = $this->userModel->findUserByEmailAndPassword($email, $password);
 
-        if($user == null){
-            echo "user not found please check ...";
-        }
-        else{
-            if($user->getRole()->getTitle() == "Administrateur"){
-                header("Location:../admin/statistique.php");
+        if($Utilisateur != null){
+            $role = $Utilisateur->getRole();
+            $id = $Utilisateur->getId();
+            $status = $Utilisateur->getStatus();
+            $deleted_at = $Utilisateur->getDeletedAt();
+            
+            session_start();
+            $_SESSION["id"] = $id;
+            $_SESSION["role"] = $role;
+            $_SESSION["status"] = $status;
+            $_SESSION["deleted_at"] = $deleted_at;
+
+            if($_SESSION["role"] == "Administrateur"){
+                header("Location:../Admin/index.php");
                 exit();
             }
-            else if($user->getRole()->getTitle() == "candidate"){
-                header("Location:../candidate/index.php");
+            else if($_SESSION["role"] == "enseignant" && $_SESSION["status"] == "active"){
+                header("Location:../Enseignant/index.php");
             }
-            else if($user->getRole()->getTitle() == "recruiter"){
-                header("Location:../recruiter/index.php");
+            else if($_SESSION["role"] == "etudiant" && $_SESSION["status"] == "active"){
+                header("Location:../Etudiant/index.php");
             }
+        }
+        else{
+            echo "user not found please check ...";
+        }
+    }
+
+
+    public function Registre($nom, $email, $password, $type){
+
+        $Utilisateur = $this->userModel->findUserByEmailAndPassword($email, $password);
+
+        if($Utilisateur != null){
+            echo "This email already exists.";
+        }
+        else{
+            $hash = password_hash($password,PASSWORD_DEFAULT);
+            if($type == "Administrateur"){
+                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $type, "inactive");
+            }
+            else{
+                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $type, "active");
+                var_dump($utilisateur);
+                exit;
+            }
+            $userModel->Registre($utilisateur);
+            header("Location:../" . $role . "/home.php");
+            exit();
         }
     }
 

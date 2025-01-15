@@ -8,14 +8,12 @@ if(isset($_POST["submit"]))
 
     if(empty($_POST["email"]) && empty($_POST["password"]))
     {
-        
         echo "email or password is empty";
     }
     else{
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        
         $authController = new AuthController();
         $authController->login($email, $password);
 

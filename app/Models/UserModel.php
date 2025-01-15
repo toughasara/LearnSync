@@ -1,11 +1,8 @@
 <?php
+
 namespace App\Models;
 
-use App\Classes\admin;
-use App\Classes\Enseignant;
-use App\Classes\Etudiant;
 use App\Classes\Utilisateur;
-use App\Classes\Role;
 use App\Config\Database;
 use PDO;
 
@@ -18,27 +15,41 @@ class UserModel{
     }
 
     public function findUserByEmailAndPassword($email, $password){
-        session_start();
-        $query = "SELECT Utilisateur.id , Utilisateur.email , Utilisateur.password , Role.id as role_id , Role.titre as `role`
-                FROM Utilisateur 
-                join Role on Role.id = Utilisateur.role_id 
-                where Utilisateur.email = :email";
+        $query = "SELECT *  FROM utilisateurs WHERE email = :email";
 
         $stmt = $this->conn->prepare($query); 
         $stmt->bindParam(":email", $email);
         $stmt->execute();
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if(!$row || !password_verify($password, $row["password"])){
-        return null;
-        }
-        else{
-            $_SESSION["id"] = $row["id"];
-            $_SESSION["role"] = $row["role"];
 
-            $role = new Role($row["role_id"], $row["role"]);
-            return new Utilisateur($row['id'],$row["email"],$row["password"],$role);
+        // var_dump($password, $row["password"]);
+        // exit;
+
+        if (!$row || !password_verify($password, $row["password"])) {
+            return null;
+        } else {
+            return new Utilisateur($row["id"],$row["nom"],$row["email"],$row["password"],$row["role"],$row["status"],$row["created_at"],$row["deleted_at"]);
         }
+    }
+    
+
+    public function Registre($utilisateur){
+        $nom = $utilisateur->getNom();
+        $email = $utilisateur->getEmail();
+        $password = $utilisateur->getPassword();
+        $role = $utilisateur->getRole();
+        $status = $utilisateur->getStatus();
+
+        $query = "INSERT INTO user (nom, email, password, role, status) 
+                VALUES (:nom, :email, :password, :role, :status);";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':status', $status);
+        $stmt->execute();
     }
 }

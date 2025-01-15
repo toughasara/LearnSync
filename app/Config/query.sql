@@ -10,7 +10,6 @@ CREATE TABLE utilisateurs (
     role ENUM('Administrateur', 'enseignant', 'etudiant') NOT NULL,
     status ENUM('active', 'inactive', 'suspended') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL
 );
 
@@ -55,3 +54,6 @@ CREATE TABLE inscription (
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
 );
+
+INSERT INTO utilisateurs (nom, email, password, role, status)
+VALUES ('Sara', 'sara@gmail.com', '$2b$12$dFabwWoctxSoWgjo7sr3TeVVzMie0a9PzpoFHw4bx.BCwNtrVxKQq', 'Administrateur', 'active');
