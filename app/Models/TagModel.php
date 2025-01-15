@@ -59,7 +59,7 @@ class TagModel{
     }
 
     // supprimer tag
-    public function supprimerCayegorie($id){
+    public function supprimertag($id){
         $query = "DELETE FROM tags WHERE id = $id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

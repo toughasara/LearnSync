@@ -10,7 +10,7 @@
 
     if (isset($_GET['id'])) {
         $tag_id = $_GET['id'];
-        $categorieController->deleteTagById($tag_id);
+        $tagController->deleteTagById($tag_id);
         $tags = $tagController->getTags();
     }
 

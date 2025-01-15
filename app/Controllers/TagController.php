@@ -40,9 +40,9 @@ class TagController{
     }
 
     // supprimer une tag 
-    public function deleteCategoryById($category_id){
-        $id = $category_id;
-        $this->tagModel->supprimerCayegorie($id);
+    public function deleteTagById($tag_id){
+        $id = $tag_id;
+        $this->tagModel->supprimertag($id);
     }
     
 
