@@ -91,27 +91,28 @@
                 <div class="col-md-4">
                     <div class="course-card">
                         <div class="course-image">
-                            <img src="<?php echo htmlspecialchars($course['image']); ?>" alt="<?php echo htmlspecialchars($course['title']); ?>">
+                            <img src="https://via.placeholder.com/300x200" alt="<?php echo htmlspecialchars($course->getTitle()); ?>">
                         </div>
                         <div class="course-content">
-                            <h3 class="h5 mb-2"><?php echo htmlspecialchars($course['title']); ?></h3>
-                            <p class="text-muted mb-3"><?php echo htmlspecialchars($course['description']); ?></p>
+                            <h3 class="h5 mb-2"><?php echo htmlspecialchars($course->getTitle()); ?></h3>
+                            <p class="text-muted mb-3"><?php echo htmlspecialchars($course->getDescription()); ?></p>
                             <div class="mb-3">
-                                <?php foreach($course['tags'] as $tag): ?>
-                                    <span class="tag"><?php echo htmlspecialchars($tag); ?></span>
+                                <span class="tag"><?php echo htmlspecialchars($course->getCategorie()->getNom()); ?></span>
+                                <?php foreach($course->getTags() as $tag): ?>
+                                    <span class="tag"><?php echo htmlspecialchars($tag->getNom()); ?></span>
                                 <?php endforeach; ?>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">
-                                    <i class="bi bi-calendar-event me-2"></i><?php echo htmlspecialchars($course['date']); ?>
+                                    <i class="bi bi-calendar-event me-2"></i><?php echo htmlspecialchars($course->getCreatedAt()); ?>
                                 </small>
                                 <div>
-                                    <button class="btn btn-outline-primary btn-sm" onclick="modifierCours(<?php echo $course['id']; ?>)">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="modifierCours(<?php echo $course->getId(); ?>)">
                                         <i class="bi bi-pencil me-1"></i>Modifier
                                     </button>
-                                    <button class="btn btn-outline-danger btn-sm ms-2" onclick="supprimerCours(<?php echo $course['id']; ?>)">
+                                    <a href="affichcours.php?delete_id=<?php echo $course->getId(); ?>" class="btn btn-outline-danger btn-sm ms-2">
                                         <i class="bi bi-trash me-1"></i>Supprimer
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

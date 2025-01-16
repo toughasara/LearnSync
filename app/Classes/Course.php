@@ -11,19 +11,20 @@ class Course {
     private $description;
     private $contentType;
     private $contentUrl;
-    private $utilisateurId; 
-    private $categorieId;
-    // private $tags = [];
+    private $utilisateur; 
+    private $categorie;
+    private $tags;
     private $createdAt;
 
-    public function __construct($id = null, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $createdAt = null) {
+    public function __construct($id = null, $title, $description, $contentType, $contentUrl, $utilisateur, $categorie, $tags = [], $createdAt = null) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->contentType = $contentType;
         $this->contentUrl = $contentUrl;
-        $this->utilisateurId = $utilisateurId;
-        $this->categorieId = $categorieId;
+        $this->utilisateur = $utilisateur;
+        $this->categorie = $categorie;
+        $this->tags = $tags;
         $this->createdAt = $createdAt;
     }
 
@@ -47,12 +48,16 @@ class Course {
         return $this->contentUrl;
     }
 
-    public function getUtilisateurId() {
-        return $this->utilisateurId;
+    public function getUtilisateur() {
+        return $this->utilisateur;
     }
 
-    public function getCategorieId() {
-        return $this->categorieId;
+    public function getCategorie() {
+        return $this->categorie;
+    }
+
+    public function getTags(){
+        return  $this->tags;
     }
 
     public function getCreatedAt() {
@@ -81,12 +86,16 @@ class Course {
         $this->contentUrl = $contentUrl;
     }
 
-    public function setUtilisateur($utilisateurId) {
-        $this->utilisateurId = $utilisateurId;
+    public function setUtilisateur($utilisateur) {
+        $this->utilisateur = $utilisateur;
     }
 
-    public function setCategorie($categorieId) {
-        $this->categorieId = $categorieId;
+    public function setCategorie($categorie) {
+        $this->categorie = $categorie;
+    }
+
+    public function setTags($tags) {
+        $this->tags = $tags;
     }
 
     public function setCreatedAt($createdAt) {

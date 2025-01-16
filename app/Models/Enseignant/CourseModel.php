@@ -25,8 +25,8 @@ class CourseModel{
         $stmt->bindParam(':description', $course->getDescription());
         $stmt->bindParam(':contentType', $course->getContentType());
         $stmt->bindParam(':contentUrl', $course->getContentUrl());
-        $stmt->bindParam(':utilisateurId', $course->getUtilisateurId());
-        $stmt->bindParam(':categorieId', $course->getCategorieId());
+        $stmt->bindParam(':utilisateurId', $course->getUtilisateur()->getId());
+        $stmt->bindParam(':categorieId', $course->getCategorie()->getId());
 
         $stmt->execute();
 

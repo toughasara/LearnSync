@@ -55,7 +55,7 @@ class AuthController{
         }
         else{
             $hash = password_hash($password,PASSWORD_DEFAULT);
-            if($role == "Administrateur"){
+            if($role == "Enseignant"){
                 $utilisateur = new Utilisateur( null, $nom, $email, $hash, $role, "inactive");
             }
             else{

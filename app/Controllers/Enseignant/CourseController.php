@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Enseignant;
 use App\Classes\Course;
+use App\Classes\Utilisateur;
+use App\Classes\Categorie;
 use App\Models\Enseignant\CourseModel;
 
 class CourseController{
@@ -14,7 +16,10 @@ class CourseController{
 
     public function addCourse($title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags) {
 
-        $course = new Course( null, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId );
+        $utilisateur = new Utilisateur( $utilisateurId, null, null, null, null, null, null, null);
+        $categorie = new Categorie( $categorieId, null, null);
+
+        $course = new Course( null, $title, $description, $contentType, $contentUrl, $utilisateur, $categorie, [], null);
 
         $this->courseModel->addCourse($course, $tags);
     }
