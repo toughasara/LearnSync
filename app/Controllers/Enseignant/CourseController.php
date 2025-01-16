@@ -29,6 +29,22 @@ class CourseController{
         return $this->courseModel->getAllCourses();
     }
 
+    //trouver un course
+    public function trouvercourse($course_id){
+        $id = $course_id;
+        return $this->courseModel->trouvercourse($id);
+    }
+
+    // modifier un course 
+    public function updateCourse($title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags){
+        $utilisateur = new Utilisateur( $utilisateurId, null, null, null, null, null, null, null);
+        $categorie = new Categorie( $categorieId, null, null);
+
+        $course = new Course( null, $title, $description, $contentType, $contentUrl, $utilisateur, $categorie, [], null);
+
+        $this->courseModel->updatecourse($course, $tags);
+    }
+
     // Supprimer un cours
     public function deleteCourse($courseId) {
         return $this->courseModel->deleteCourse($courseId);

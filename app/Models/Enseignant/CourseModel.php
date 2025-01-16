@@ -44,7 +44,8 @@ class CourseModel{
             $stmt->execute();
         }
     }
-    
+
+    //get all courses
     public function getAllCourses() {
         $query = "SELECT 
                 c.id AS course_id,
@@ -116,6 +117,53 @@ class CourseModel{
         return array_values($courses);
     }
 
+    //trouver un course 
+    public function trouvercourse($id){
+        $queryFindTag = "SELECT * FROM courses where id = :id";
+        $stmtselectTag = $this->conn->prepare($queryFindTag);
+        $stmtselectTag->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtselectTag->execute();
+        $tag = $stmtselectTag->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    // modifier un course et ses tags 
+    public function updatecourse($course, $tags){
+        $query = "UPDATE courses 
+                    SET title = :title
+                    SET description = :description
+                    SET content_type = :contentType
+                    SET content_url = :contentUrl
+                    SET utilisateur_id = :utilisateurId
+                    SET category_id = :categorieId
+                    WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':title', $course->getTitle());
+        $stmt->bindParam(':description', $course->getDescription());
+        $stmt->bindParam(':contentType', $course->getContentType());
+        $stmt->bindParam(':contentUrl', $course->getContentUrl());
+        $stmt->bindParam(':utilisateurId', $course->getUtilisateur()->getId());
+        $stmt->bindParam(':categorieId', $course->getCategorie()->getId());
+
+        $stmt->execute();
+
+        $courseId = $this->conn->lastInsertId();
+
+        $query = "DELETE FROM courses WHERE id = :courseId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':courseId', $courseId);
+        $stmt->execute();
+
+        foreach ($tags as $tagId) {
+            $query = "INSERT INTO course_tags (course_id, tag_id) 
+                        VALUES (:courseId, :tagId)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':courseId', $courseId);
+            $stmt->bindParam(':tagId', $tagId);
+            $stmt->execute();
+        }
+    }
+
     // Supprimer un cours et ses tags
     public function deleteCourse($courseId) {
         $query = "DELETE FROM course_tags WHERE course_id = :courseId";
@@ -126,7 +174,7 @@ class CourseModel{
         $query = "DELETE FROM courses WHERE id = :courseId";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':courseId', $courseId);
-        return $stmt->execute();
+        $stmt->execute();
     }
     
 }

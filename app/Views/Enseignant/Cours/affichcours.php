@@ -8,9 +8,7 @@
     if (isset($_GET['delete_id'])) {
         $courseId = $_GET['delete_id'];
         $courseController->deleteCourse($courseId);
-        // Rediriger pour éviter la suppression multiple lors du rafraîchissement
-        header("Location: affichcours.php");
-        exit;
+        $courses = $courseController->getAllCourses();
     }
     
     // Configuration de la pagination
@@ -62,8 +60,8 @@
                     Statistiques
                 </a>
             </div>
-            </div>
         </div>
+    </div>
 
         <!-- Barre de recherche et filtres -->
         <div class="row mb-4">
@@ -107,9 +105,9 @@
                                     <i class="bi bi-calendar-event me-2"></i><?php echo htmlspecialchars($course->getCreatedAt()); ?>
                                 </small>
                                 <div>
-                                    <button class="btn btn-outline-primary btn-sm" onclick="modifierCours(<?php echo $course->getId(); ?>)">
+                                    <a href="updatecours.php?update_id=<?php echo $course->getId(); ?>" class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-pencil me-1"></i>Modifier
-                                    </button>
+                                    </a>
                                     <a href="affichcours.php?delete_id=<?php echo $course->getId(); ?>" class="btn btn-outline-danger btn-sm ms-2">
                                         <i class="bi bi-trash me-1"></i>Supprimer
                                     </a>

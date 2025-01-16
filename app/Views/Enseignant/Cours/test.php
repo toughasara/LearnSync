@@ -1,50 +1,76 @@
 <?php
-
+    session_start();
 
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\courseController;
+    use App\Controllers\CategorieController;
+    use App\Controllers\TagController;
 
-    $courseController = new courseController();
+    $categorieController = new CategorieController();
+    // Instancier le TagController
+    $tagController = new TagController();
 
-    $courses = $courseController->getcourses();
+    $categories = $categorieController->getCategories();
+    // Récupérer les tags
+    $tags = $tagController->getTags();
+    
+    if(isset($_POST["submit"]))
+    {
+        if(empty($_POST["title"]) || empty($_POST["description"]) || empty($_POST["content_type"]) || empty($_POST["content_url"]) || empty($_POST["category_id"]))
+        {
+            echo '<div class="alert alert-danger">Tous les champs sont obligatoires</div>';
+        }
+        else {
+            $title = $_POST["title"];
+            $description = $_POST["description"];
+            $content_type = $_POST["content_type"];
+            $content_url = $_POST["content_url"];
+            $category_id = $_POST["category_id"];
+            $selectedTags = isset($_POST["tags"]) ? $_POST["tags"] : [];
+            
+            // Ajouter le cours
+            $courseController->addCourse($title, $description, $content_type, $content_url, $_SESSION['user_id'], $category_id, $selectedTags);
 
-
+            header("Location: courses.php");
+            exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Cours - Youdemy</title>
-    <link rel="stylesheet" href="../../assests/css/Enseignant/menuens.css">
-    <link rel="stylesheet" href="../../assests/css/Enseignant/gererens.css">
+    <title>Ajouter un Cours - Youdemy</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assests/css/Enseignant/menuens.css">
+    <link rel="stylesheet" href="../../assests/css/Enseignant/ajoutens.css">
 </head>
-<body class="bg-light">
+<body>
     <div class="dashboard-header text-center">
         <div class="container">
             <h1>Gestion des Cours</h1>
-            <p>Gérez et publiez vos cours avec facilité</p>
+            <p>Créez et gérez vos cours en ligne</p>
         </div>
     </div>
+
     <div class="container">
         <div class="menu-buttons">
             <div class="row g-3">
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn active">
+                    <button class="menu-btn" onclick="window.location.href='index.php'">
                         <i class="bi bi-collection"></i>
                         Mes Cours
                     </button>
                 </div>
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn">
+                    <button class="menu-btn active">
                         <i class="bi bi-plus-circle"></i>
                         Ajouter un Cours
                     </button>
                 </div>
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn">
+                    <button class="menu-btn" onclick="window.location.href='statistics.php'">
                         <i class="bi bi-graph-up"></i>
                         Statistiques
                     </button>
@@ -52,246 +78,85 @@
             </div>
         </div>
 
-        <!-- Barre de recherche et filtres -->
-        <div class="row mb-4">
-            <div class="col-md-8">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Rechercher un cours..." id="recherche-cours">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" id="filtre-categorie">
-                    <option value="">Toutes les catégories</option>
-                    <option value="dev">Développement</option>
-                    <option value="design">Design</option>
-                    <option value="marketing">Marketing</option>
-                </select>
-            </div>
-        </div>
+        <div class="form-section">
+            <h2>Nouveau Cours</h2>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Titre du cours*</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
 
-        <!-- Grille des cours -->
-        <div class="row" id="courses-container"></div>
-        
-        <!-- Pagination -->
-        <nav aria-label="Navigation des pages">
-            <ul class="pagination" id="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Suivant</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                    <div class="col-12">
+                        <label class="form-label">Description*</label>
+                        <textarea class="form-control" name="description" rows="4" required></textarea>
+                    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Exemple de données de cours (à remplacer par vos données PHP)
-        const courses = [
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            {
-                id: 1,
-                title: "Introduction au Développement Web",
-                description: "Apprenez les bases du développement web avec HTML, CSS et JavaScript.",
-                image: "/api/placeholder/400/200",
-                date: "15/01/2024",
-                tags: ["HTML", "CSS", "JavaScript"]
-            },
-            // Ajoutez d'autres cours ici
-        ];
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Type de contenu*</label>
+                        <select class="form-select" name="content_type" required>
+                            <option value="">Sélectionner</option>
+                            <option value="video">Vidéo</option>
+                            <option value="document">Document</option>
+                        </select>
+                    </div>
 
-        // Configuration de la pagination
-        const ITEMS_PER_PAGE = 6;
-        let currentPage = 1;
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">URL du contenu*</label>
+                        <input type="text" class="form-control" name="content_url" required>
+                    </div>
 
-        // Fonction pour créer une carte de cours
-        function createCourseCard(course) {
-            return `
-                <div class="col-md-4">
-                    <div class="course-card">
-                        <div class="course-image">
-                            <img src="${course.image}" alt="${course.title}">
-                        </div>
-                        <div class="course-content">
-                            <h3 class="h5 mb-2">${course.title}</h3>
-                            <p class="text-muted mb-3">${course.description}</p>
-                            <div class="mb-3">
-                                ${course.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted"><i class="bi bi-calendar-event me-2"></i>${course.date}</small>
-                                <div>
-                                    <button class="btn btn-outline-primary btn-sm" onclick="modifierCours(${course.id})">
-                                        <i class="bi bi-pencil me-1"></i>Modifier
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm ms-2" onclick="supprimerCours(${course.id})">
-                                        <i class="bi bi-trash me-1"></i>Supprimer
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Catégorie*</label>
+                        <select class="form-select" name="category_id" required>
+                            <option value="">Sélectionner</option>
+                            <?php if(isset($categories) && !empty($categories)): ?>
+                                <?php foreach($categories as $category): ?>
+                                    <option value="<?= $category->getId() ?>"><?= $category->getName() ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Catégorie*</label>
+                        <select class="form-select" name="category_id" required>
+                            <option value="">Sélectionner</option>
+                            <?php if(isset($categories) && !empty($categories)): ?>
+                                <?php foreach($categories as $category): ?>
+                                    <option value="<?= $category->getId() ?>"><?= $category->getName() ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Tags</label>
+                        <div class="row g-3">
+                            <?php if(isset($tags) && !empty($tags)): ?>
+                                <?php foreach($tags as $tag): ?>
+                                    <div class="col-auto">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tags[]" value="<?= $tag->getId() ?>">
+                                            <label class="form-check-label"><?= $tag->getName() ?></label>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" name="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Publier le cours
+                        </button>
+                    </div>
                 </div>
-            `;
-        }
+            </form>
+        </div>
+    </div>
 
-        // Fonction pour afficher les cours de la page courante
-        function displayCourses(page) {
-            const coursesContainer = document.getElementById('courses-container');
-            const start = (page - 1) * ITEMS_PER_PAGE;
-            const end = start + ITEMS_PER_PAGE;
-            const coursesToDisplay = courses.slice(start, end);
-
-            coursesContainer.innerHTML = coursesToDisplay.map(course => createCourseCard(course)).join('');
-            updatePagination();
-        }
-
-        // Fonction pour mettre à jour la pagination
-        function updatePagination() {
-            const totalPages = Math.ceil(courses.length / ITEMS_PER_PAGE);
-            const pagination = document.getElementById('pagination');
-            let paginationHTML = '';
-
-            // Bouton précédent
-            paginationHTML += `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})" tabindex="-1">Précédent</a>
-                </li>
-            `;
-
-            // Pages numérotées
-            for (let i = 1; i <= totalPages; i++) {
-                paginationHTML += `
-                    <li class="page-item ${currentPage === i ? 'active' : ''}">
-                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
-                    </li>
-                `;
-            }
-
-            // Bouton suivant
-            paginationHTML += `
-                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Suivant</a>
-                </li>
-            `;
-
-            pagination.innerHTML = paginationHTML;
-        }
-
-        // Fonction pour changer de page
-        function changePage(page) {
-            if (page < 1 || page > Math.ceil(courses.length / ITEMS_PER_PAGE)) return;
-            currentPage = page;
-            displayCourses(currentPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Fonctions pour modifier et supprimer les cours
-        function modifierCours(id) {
-            console.log('Modifier cours:', id);
-            // Ajoutez votre logique de modification
-        }
-
-        function supprimerCours(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')) {
-                console.log('Supprimer cours:', id);
-                // Ajoutez votre logique de suppression
-            }
-        }
-
-        // Initialisation de l'affichage
-        document.addEventListener('DOMContentLoaded', function() {
-            displayCourses(currentPage);
-            
-            // Votre code existant pour les boutons de menu et la recherche reste ici
-        });
-    </script>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gestion des boutons de menu
-            const menuButtons = document.querySelectorAll('.menu-btn');
-            
-            menuButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    menuButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // Gestion de la recherche
-            const rechercheInput = document.getElementById('recherche-cours');
-            rechercheInput.addEventListener('input', function() {
-                console.log('Recherche:', this.value);
-            });
-
-            // Gestion des filtres
-            const filtreCategorie = document.getElementById('filtre-categorie');
-            filtreCategorie.addEventListener('change', function() {
-                console.log('Filtre:', this.value);
-            });
-        });
-    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

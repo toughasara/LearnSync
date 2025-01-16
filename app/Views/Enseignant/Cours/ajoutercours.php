@@ -5,8 +5,6 @@
     use App\Controllers\CategorieController;
     use App\Controllers\Enseignant\CourseController;
 
-
-    // Récupérer les tags et les catégories depuis la base de données
     $tagController = new TagController();
     $categorieController = new CategorieController();
 
