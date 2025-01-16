@@ -119,11 +119,78 @@ class CourseModel{
 
     //trouver un course 
     public function trouvercourse($id){
-        $queryFindTag = "SELECT * FROM courses where id = :id";
-        $stmtselectTag = $this->conn->prepare($queryFindTag);
-        $stmtselectTag->bindParam(':id', $id, \PDO::PARAM_INT);
-        $stmtselectTag->execute();
-        $tag = $stmtselectTag->fetch(\PDO::FETCH_ASSOC);
+        $query = "SELECT 
+                c.id AS course_id,
+                c.title,
+                c.description,
+                c.content_type,
+                c.content_url,
+                c.created_at,
+                u.id AS utilisateur_id,
+                u.nom AS utilisateur_nom,
+                cat.id AS categorie_id,
+                cat.nom AS categorie_nom,
+                cat.description AS categorie_description,
+                t.id AS tag_id,
+                t.nom AS tag_nom
+                FROM courses c
+                JOIN utilisateurs u ON c.utilisateur_id = u.id
+                JOIN categories cat ON c.category_id = cat.id
+                LEFT JOIN course_tags ct ON c.id = ct.course_id
+                LEFT JOIN tags t ON ct.tag_id = t.id
+                where c.id = :id
+        ";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        if($row) {
+            $courseData = $rows[0];
+            $utilisateur = new Utilisateur(
+                $courseData['utilisateur_id'],
+                $courseData['utilisateur_nom'],
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
+    
+            $categorie = new Categorie(
+                $courseData['categorie_id'],
+                $courseData['categorie_nom'],
+                $courseData['categorie_description']
+            );
+    
+            $course = new Course(
+                $courseData['course_id'],
+                $courseData['title'],
+                $courseData['description'],
+                $courseData['content_type'],
+                $courseData['content_url'],
+                $utilisateur,
+                $categorie,
+                [],
+                $courseData['created_at']
+            );
+    
+            foreach ($rows as $row) {
+                if ($row['tag_id'] !== null) {
+                    $tag = new Tag($row['tag_id'], $row['tag_nom']);
+                    $course->setTags(array_merge($course->getTags(), [$tag]));
+                }
+            }
+    
+            return $course;
+        }
+        else {
+            return null;
+        }
+    
     }
 
     // modifier un course et ses tags 
@@ -144,6 +211,7 @@ class CourseModel{
         $stmt->bindParam(':contentUrl', $course->getContentUrl());
         $stmt->bindParam(':utilisateurId', $course->getUtilisateur()->getId());
         $stmt->bindParam(':categorieId', $course->getCategorie()->getId());
+        $stmt->bindParam(':id', $course->getId());
 
         $stmt->execute();
 
@@ -151,14 +219,14 @@ class CourseModel{
 
         $query = "DELETE FROM courses WHERE id = :courseId";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':courseId', $courseId);
+        $stmt->bindParam(':courseId', $course->getId());
         $stmt->execute();
 
         foreach ($tags as $tagId) {
             $query = "INSERT INTO course_tags (course_id, tag_id) 
                         VALUES (:courseId, :tagId)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':courseId', $courseId);
+            $stmt->bindParam(':courseId', $course->getId());
             $stmt->bindParam(':tagId', $tagId);
             $stmt->execute();
         }

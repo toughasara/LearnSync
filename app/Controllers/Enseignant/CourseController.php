@@ -36,14 +36,16 @@ class CourseController{
     }
 
     // modifier un course 
-    public function updateCourse($title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags){
+    public function updateCourse($course_id, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags){
+
         $utilisateur = new Utilisateur( $utilisateurId, null, null, null, null, null, null, null);
         $categorie = new Categorie( $categorieId, null, null);
 
-        $course = new Course( null, $title, $description, $contentType, $contentUrl, $utilisateur, $categorie, [], null);
+        $course = new Course( $course_id, $title, $description, $contentType, $contentUrl, $utilisateur, $categorie, [], null);
 
         $this->courseModel->updatecourse($course, $tags);
     }
+
 
     // Supprimer un cours
     public function deleteCourse($courseId) {
