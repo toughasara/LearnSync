@@ -19,5 +19,15 @@ class CourseController{
         $this->courseModel->addCourse($course, $tags);
     }
 
+    // Récupérer tous les cours
+    public function getAllCourses() {
+        return $this->courseModel->getAllCourses();
+    }
+
+    // Supprimer un cours
+    public function deleteCourse($courseId) {
+        return $this->courseModel->deleteCourse($courseId);
+    }
+
 
 }

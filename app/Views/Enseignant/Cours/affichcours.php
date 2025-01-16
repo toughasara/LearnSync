@@ -1,10 +1,18 @@
 <?php
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\courseController;
+    use App\Controllers\Enseignant\CourseController;
 
     $courseController = new courseController();
-    $courses = $courseController->getcourses();
+    $courses = $courseController->getAllCourses();
 
+    if (isset($_GET['delete_id'])) {
+        $courseId = $_GET['delete_id'];
+        $courseController->deleteCourse($courseId);
+        // Rediriger pour éviter la suppression multiple lors du rafraîchissement
+        header("Location: affichcours.php");
+        exit;
+    }
+    
     // Configuration de la pagination
     $items_per_page = 6;
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;

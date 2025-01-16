@@ -41,5 +41,39 @@ class CourseModel{
             $stmt->execute();
         }
     }
+
+    // Récupérer tous les cours avec leurs tags
+    public function getAllCourses() {
+        $query = "SELECT c.id AS course_id, c.title, c.description, c.content_type, c.content_url, cat.nom
+            FROM courses c
+            JOIN categories cat ON c.category_id = cat.id
+            LEFT JOIN course_tags ct ON c.id = ct.course_id
+            LEFT JOIN tags t ON ct.tag_id = t.id
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($courses as &$course) {
+            
+        }
+
+        return $courses;
+    }
+
+    // Supprimer un cours et ses tags
+    public function deleteCourse($courseId) {
+        $query = "DELETE FROM course_tags WHERE course_id = :courseId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':courseId', $courseId);
+        $stmt->execute();
+
+        $query = "DELETE FROM courses WHERE id = :courseId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':courseId', $courseId);
+        return $stmt->execute();
+    }
     
 }

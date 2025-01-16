@@ -13,6 +13,7 @@ class Course {
     private $contentUrl;
     private $utilisateurId; 
     private $categorieId;
+    // private $tags = [];
     private $createdAt;
 
     public function __construct($id = null, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $createdAt = null) {
