@@ -36,9 +36,23 @@ body {
     background-color: var(--light-gray);
     color: var(--primary-color);
     border: none;
+    text-decoration: none !important;
+}
+
+.menu-btn:link,
+.menu-btn:visited,
+.menu-btn:hover,
+.menu-btn:active {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.menu-buttons a {
+    text-decoration: none !important;
 }
 
 .menu-btn:hover, .menu-btn.active {
     background-color: var(--secondary-color);
     color: white;
+    text-decoration: none !important;
 }

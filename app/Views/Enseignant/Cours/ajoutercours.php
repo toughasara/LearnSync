@@ -39,10 +39,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un Cours - Youdemy</title>
+    <link rel="stylesheet" href="../../assests/css/Enseignant/menuens.css">
+    <link rel="stylesheet" href="../../assests/css/Enseignant/gererens.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assests/css/Enseignant/menuens.css">
-    <link rel="stylesheet" href="../../assests/css/Enseignant/ajoutens.css">
 </head>
 <body class="bg-light">
     <div class="dashboard-header text-center">
@@ -56,22 +56,25 @@
         <div class="menu-buttons">
             <div class="row g-3">
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn">
+                    <!-- Bouton "Mes Cours" -->
+                    <a href="affichcours.php" class="menu-btn">
                         <i class="bi bi-collection"></i>
                         Mes Cours
-                    </button>
+                    </a>
                 </div>
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn active">
+                    <!-- Bouton "Ajouter un Cours" -->
+                    <a href="ajoutercours.php" class="menu-btn active">
                         <i class="bi bi-plus-circle"></i>
                         Ajouter un Cours
-                    </button>
+                    </a>
                 </div>
                 <div class="col-12 col-md-4">
-                    <button class="menu-btn">
+                    <!-- Bouton "Statistiques" -->
+                    <a href="statistiques.php" class="menu-btn">
                         <i class="bi bi-graph-up"></i>
                         Statistiques
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

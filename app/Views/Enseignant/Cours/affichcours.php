@@ -44,24 +44,24 @@
     <div class="container">
         <div class="menu-buttons">
             <div class="row g-3">
-                <div class="col-12 col-md-4">
-                    <button class="menu-btn active">
-                        <i class="bi bi-collection"></i>
-                        Mes Cours
-                    </button>
-                </div>
-                <div class="col-12 col-md-4">
-                    <button class="menu-btn">
-                        <i class="bi bi-plus-circle"></i>
-                        Ajouter un Cours
-                    </button>
-                </div>
-                <div class="col-12 col-md-4">
-                    <button class="menu-btn">
-                        <i class="bi bi-graph-up"></i>
-                        Statistiques
-                    </button>
-                </div>
+            <div class="col-12 col-md-4">
+                <a href="affichcours.php" class="menu-btn active">
+                    <i class="bi bi-collection"></i>
+                    Mes Cours
+                </a>
+            </div>
+            <div class="col-12 col-md-4">
+                <a href="ajoutercours.php" class="menu-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    Ajouter un Cours
+                </a>
+            </div>
+            <div class="col-12 col-md-4">
+                <a href="statistiques.php" class="menu-btn">
+                    <i class="bi bi-graph-up"></i>
+                    Statistiques
+                </a>
+            </div>
             </div>
         </div>
 
