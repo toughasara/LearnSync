@@ -1,3 +1,38 @@
+<?php
+
+    require_once("../../../../vendor/autoload.php");
+    use App\Controllers\TagController;
+    use App\Controllers\CategorieController;
+    use App\Controllers\Enseignant\CourseController;
+
+
+    // Récupérer les tags et les catégories depuis la base de données
+    $tagController = new TagController();
+    $categorieController = new CategorieController();
+
+    $tags = $tagController->getTags();
+    $categories = $categorieController->getCategories();
+
+    if (isset($_POST["submit"])) {
+
+        $title = $_POST["title"];
+        $description = $_POST["description"];
+        $contentType = $_POST["content_type"];
+        $contentUrl = $_POST["content_url"];
+        $categorieId = $_POST["category_id"];
+        $tags = $_POST["tags"] ?? [];
+    
+        session_start();
+        $utilisateurId = $_SESSION["id"];
+    
+        $courseController = new CourseController();
+        $courseController->addCourse($title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags);
+    
+        header("Location: affichcours.php");
+        exit;
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -43,21 +78,21 @@
 
         <div class="form-section">
             <h2 class="mb-4">Nouveau Cours</h2>
-            <form>
+            <form action="" method="POST">
                 <div class="row g-3">
                     <div class="col-12">
                         <label class="form-label">Titre du cours*</label>
-                        <input type="text" class="form-control" required>
+                        <input type="text" name="title" class="form-control" required>
                     </div>
 
                     <div class="col-12">
                         <label class="form-label">Description*</label>
-                        <textarea class="form-control" rows="4" required></textarea>
+                        <textarea name="description" class="form-control" rows="4" required></textarea>
                     </div>
 
                     <div class="col-12 col-md-6">
                         <label class="form-label">Type de contenu*</label>
-                        <select class="form-select" required>
+                        <select name="content_type" class="form-select" required>
                             <option value="">Sélectionner</option>
                             <option value="video">Vidéo</option>
                             <option value="document">Document</option>
@@ -66,41 +101,32 @@
 
                     <div class="col-12 col-md-6">
                         <label class="form-label">URL du contenu*</label>
-                        <input type="text" class="form-control" required>
+                        <input type="text" name="content_url" class="form-control" required>
                     </div>
 
                     <div class="col-12">
                         <label class="form-label">Catégorie*</label>
-                        <select class="form-select" required>
+                        <select name="category_id" class="form-select" required>
                             <option value="">Sélectionner</option>
-                            <option value="1">Développement Web</option>
-                            <option value="2">Design</option>
-                            <option value="3">Marketing</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category->getId() ?>"><?= $category->getNom() ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
                     <div class="col-12">
                         <label class="form-label">Tags</label>
                         <div class="tag-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1">
-                                <label class="form-check-label">HTML</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="2">
-                                <label class="form-check-label">CSS</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="3">
-                                <label class="form-check-label">JavaScript</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="4">
-                                <label class="form-check-label">PHP</label>
-                            </div>
+                            <?php foreach ($tags as $tag): ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tags[]" name="tags[]" value="<?= $tag->getId() ?>">
+                                    <label class="form-check-label"><?= $tag->getNom() ?></label>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
 
+                    <input hidden type="password" class="form-control" name="submit" value="submit">
                     <div class="col-12 mt-4">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-plus-circle me-2"></i>

@@ -37,7 +37,7 @@ class TagModel{
 
         $tags_objects = [];
         foreach ($tags as $tag) {
-            $tags_objects [] = new Tag($tag['id'],$tag['nom'],$tag['description'] );
+            $tags_objects [] = new Tag($tag['id'],$tag['nom']);
         }
 
         return $tags_objects;
