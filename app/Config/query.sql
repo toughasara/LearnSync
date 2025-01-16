@@ -15,7 +15,7 @@ CREATE TABLE utilisateurs (
 
 CREATE TABLE categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
+    nom VARCHAR(100) NOT NULL UNIQUE,
     description TEXT
 );
 
@@ -34,8 +34,7 @@ CREATE TABLE courses (
 
 CREATE TABLE tags (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT
+    nom VARCHAR(100) NOT NULL UNIQUE,
 );
 
 CREATE TABLE course_tags (

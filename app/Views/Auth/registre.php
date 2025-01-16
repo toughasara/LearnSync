@@ -10,16 +10,25 @@ if(isset($_POST["submit"]))
 
     if(empty($_POST["nom"]) && empty($_POST["email"]) && empty($_POST["password"]))
     {
-        echo "is empty";
+        echo "Tous les champs sont obligatoires";
     }
     else{
         $nom = $_POST["nom"];
         $email = $_POST["email"];
         $password = $_POST["password"];
-        $type = $_POST["type"];
+        $role = $_POST["role"];
 
         $authController = new AuthController();
-        $authController->Registre($nom, $email, $password, $type);
+        $authController->Registre($nom, $email, $password, $role);
+
+        header("Location: login.php");
+            exit;
+        // if ($this->userModel->Registre($utilisateur)) {
+        //     header("Location: login.php");
+        //     exit;
+        // } else {
+        //     echo "Une erreur s'est produite lors de l'inscription.";
+        // }
 
     }
 }
@@ -57,7 +66,7 @@ if(isset($_POST["submit"]))
                 <input type="text" class="form-control" name="nom" placeholder="Nom">
                 <input type="email" class="form-control" name="email" placeholder="Email">
                 <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                <input hidden type="text" name="type" value="Enseignant">
+                <input hidden type="text" name="role" value="Enseignant">
                 <input hidden type="password" name="submit" value="submit">
 
                 <div class="mb-3 form-check">
@@ -75,7 +84,7 @@ if(isset($_POST["submit"]))
                 <input type="text" class="form-control" name="nom" placeholder="Nom">
                 <input type="email" class="form-control" name="email" placeholder="Email">
                 <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                <input hidden type="text" name="type" value="Etudiant">
+                <input hidden type="text" name="role" value="Etudiant">
                 <input hidden type="password" name="submit" value="submit">
 
                 <div class="mb-3 form-check">

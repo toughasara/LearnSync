@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 
+use App\Classes\Utilisateur;
 use App\Models\UserModel;
 
 class AuthController{
@@ -28,14 +29,14 @@ class AuthController{
             $_SESSION["status"] = $status;
             $_SESSION["deleted_at"] = $deleted_at;
 
-            if($_SESSION["role"] == "Administrateur"){
+            if($_SESSION["role"] == "Administrateur" && $_SESSION["status"] == "active" && $_SESSION["deleted_at"] == null){
                 header("Location:../Admin/index.php");
                 exit();
             }
-            else if($_SESSION["role"] == "enseignant" && $_SESSION["status"] == "active"){
+            else if($_SESSION["role"] == "enseignant" && $_SESSION["status"] == "active" && $_SESSION["deleted_at"] == null){
                 header("Location:../Enseignant/index.php");
             }
-            else if($_SESSION["role"] == "etudiant" && $_SESSION["status"] == "active"){
+            else if($_SESSION["role"] == "etudiant" && $_SESSION["status"] == "active" && $_SESSION["deleted_at"] == null){
                 header("Location:../Etudiant/index.php");
             }
         }
@@ -45,7 +46,7 @@ class AuthController{
     }
 
 
-    public function Registre($nom, $email, $password, $type){
+    public function Registre($nom, $email, $password, $role){
 
         $Utilisateur = $this->userModel->findUserByEmailAndPassword($email, $password);
 
@@ -54,17 +55,15 @@ class AuthController{
         }
         else{
             $hash = password_hash($password,PASSWORD_DEFAULT);
-            if($type == "Administrateur"){
-                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $type, "inactive");
+            if($role == "Administrateur"){
+                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $role, "inactive");
             }
             else{
-                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $type, "active");
-                var_dump($utilisateur);
-                exit;
+                $utilisateur = new Utilisateur( null, $nom, $email, $hash, $role, "active");
+                // var_dump($utilisateur);
+                // exit;
             }
-            $userModel->Registre($utilisateur);
-            header("Location:../" . $role . "/home.php");
-            exit();
+            $this->userModel->Registre($utilisateur);
         }
     }
 

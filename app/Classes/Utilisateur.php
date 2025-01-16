@@ -12,12 +12,12 @@ class Utilisateur{
     private $created_at;
     private $deleted_at;
 
-    public function __construct($id=null, $nom, $email, $password, $role, $status, $created_at='', $deleted_at=''){
+    public function __construct($id=null, $nom, $email, $password, $role, $status, $created_at= null, $deleted_at= null){
         $this->id = $id;
         $this->nom = $nom;
         $this->email = $email;
         $this->password = $password;
-        $this->$role = $role;
+        $this->role = $role;
         $this->status = $status;
         $this->created_at = $created_at;
         $this->deleted_at = $deletedAt;

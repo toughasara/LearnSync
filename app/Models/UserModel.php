@@ -29,7 +29,7 @@ class UserModel{
         if (!$row || !password_verify($password, $row["password"])) {
             return null;
         } else {
-            return new Utilisateur($row["id"],$row["name"],$row["email"],$row["password"],$row["role"],$row["status"],$row["created_at"],$row["deleted_at"]);
+            return new Utilisateur($row["id"],$row["nom"],$row["email"],$row["password"],$row["role"],$row["status"],$row["created_at"],$row["deleted_at"]);
         }
     }
 
@@ -41,11 +41,11 @@ class UserModel{
         $role = $utilisateur->getRole();
         $status = $utilisateur->getStatus();
 
-        $query = "INSERT INTO user (name, email, password, role, status) 
-                VALUES (:name, :email, :password, :role, :status);";
+        $query = "INSERT INTO utilisateurs (nom, email, password, role, status) 
+                VALUES (:nom, :email, :password, :role, :status);";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':nom', $name);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->bindParam(':role', $role);
