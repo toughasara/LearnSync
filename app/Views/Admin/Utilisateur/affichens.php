@@ -9,12 +9,6 @@
     $enseignants = $utilisateurController->getEnseignants();
     $etudiants = $utilisateurController->getEtudiants();
 
-    if (isset($_GET['id'])) {
-        $category_id = $_GET['id'];
-        $categorieController->deleteCategoryById($category_id);
-        $categories = $categorieController->getCategories();
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">

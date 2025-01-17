@@ -23,10 +23,15 @@ class UtilisateurController{
         return $this->utilisateurModel->getAllEtudiants();
     }
 
-    // supprimer un utilisateur 
-    public function deleteCategoryById($category_id){
-        $id = $category_id;
-        $this->categorieModel->supprimerCayegorie($id);
+    // soft delet un utilisateur 
+    public function softDeleteUser($id) {
+        return $this->utilisateurModel->softDeleteUser($id);
     }
+
+    // changer le statut 
+    public function updateUserStatus($id, $status) {
+        return $this->utilisateurModel->updateUserStatus($id, $status);
+    }
+
 
 }
