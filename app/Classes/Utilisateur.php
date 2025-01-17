@@ -20,7 +20,7 @@ class Utilisateur{
         $this->role = $role;
         $this->status = $status;
         $this->created_at = $created_at;
-        $this->deleted_at = $deletedAt;
+        $this->deleted_at = $deleted_at;
     }
 
 

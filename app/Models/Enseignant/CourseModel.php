@@ -145,9 +145,9 @@ class CourseModel{
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     
-        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-        if($row) {
+        if($rows) {
             $courseData = $rows[0];
             $utilisateur = new Utilisateur(
                 $courseData['utilisateur_id'],
@@ -195,41 +195,58 @@ class CourseModel{
 
     // modifier un course et ses tags 
     public function updatecourse($course, $tags){
-        $query = "UPDATE courses 
-                    SET title = :title
-                    SET description = :description
-                    SET content_type = :contentType
-                    SET content_url = :contentUrl
-                    SET utilisateur_id = :utilisateurId
-                    SET category_id = :categorieId
-                    WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        try {
+            $this->conn->beginTransaction();
+                $query = "UPDATE courses 
+                            SET title = :title,
+                            description = :description,
+                            content_type = :contentType,
+                            content_url = :contentUrl,
+                            utilisateur_id = :utilisateurId,
+                            category_id = :categorieId
+                            WHERE id = :id";
+                $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':title', $course->getTitle());
-        $stmt->bindParam(':description', $course->getDescription());
-        $stmt->bindParam(':contentType', $course->getContentType());
-        $stmt->bindParam(':contentUrl', $course->getContentUrl());
-        $stmt->bindParam(':utilisateurId', $course->getUtilisateur()->getId());
-        $stmt->bindParam(':categorieId', $course->getCategorie()->getId());
-        $stmt->bindParam(':id', $course->getId());
+                $stmt->bindValue(':title', $course->getTitle());
+                $stmt->bindValue(':description', $course->getDescription());
+                $stmt->bindValue(':contentType', $course->getContentType());
+                $stmt->bindValue(':contentUrl', $course->getContentUrl());
+                $stmt->bindValue(':utilisateurId', $course->getUtilisateur()->getId());
+                $stmt->bindValue(':categorieId', $course->getCategorie()->getId());
+                $stmt->bindValue(':id', $course->getId());
 
-        $stmt->execute();
+                $stmt->execute();
 
-        $courseId = $this->conn->lastInsertId();
+                $courseId = $course->getId();
+                
 
-        $query = "DELETE FROM courses WHERE id = :courseId";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':courseId', $course->getId());
-        $stmt->execute();
+                $query = "DELETE FROM course_tags WHERE course_id = :courseId";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindValue(':courseId', $course->getId());
+                $stmt->execute();
 
-        foreach ($tags as $tagId) {
-            $query = "INSERT INTO course_tags (course_id, tag_id) 
-                        VALUES (:courseId, :tagId)";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':courseId', $course->getId());
-            $stmt->bindParam(':tagId', $tagId);
-            $stmt->execute();
-        }
+                foreach ($tags as $tagId) {
+                    $query = "SELECT id FROM tags WHERE id = :tagId";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->bindValue(':tagId', $tagId);
+                    $stmt->execute();
+
+                    if (!$stmt->fetch(PDO::FETCH_ASSOC)) {
+                        throw new Exception("Le tag avec l'ID " . $tagId . " n'existe pas.");
+                    }
+
+                    $query = "INSERT INTO course_tags (course_id, tag_id) 
+                                VALUES (:courseId, :tagId)";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->bindValue(':courseId', $course->getId());
+                    $stmt->bindValue(':tagId', $tagId);
+                    $stmt->execute();
+                }
+                $this->conn->commit();
+            } catch (Exception $e) {
+                $this->conn->rollBack();
+                throw $e;
+            }
     }
 
     // Supprimer un cours et ses tags

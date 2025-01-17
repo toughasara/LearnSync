@@ -12,9 +12,16 @@
     $tags = $tagController->getTags();
     $categories = $categorieController->getCategories();
 
-    if (isset($_GET['id'])) {
-        $course_id = $_GET['id'];
+    if (isset($_GET['update_id'])) {
+        // var_dump("wsel");
+        // exit;
+        $course_id = $_GET['update_id'];
         $course = $courseController->trouvercourse($course_id);
+        // var_dump($course);
+        // exit;
+        if (!$course) {
+            die("Le cours n'a pas été trouvé.");
+        }
     }
     if (isset($_POST["submit"])) {
 
@@ -25,7 +32,6 @@
         $categorieId = $_POST["category_id"];
         $tags = $_POST["tags"] ?? [];
     
-        session_start();
         $utilisateurId = $_SESSION["id"];
     
         $courseController->updateCourse( $course_id, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags);
