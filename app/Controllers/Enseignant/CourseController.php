@@ -52,5 +52,13 @@ class CourseController{
         return $this->courseModel->deleteCourse($courseId);
     }
 
+    // inscription d'un etudiant a un course 
+    public function inscrireEtudiant($courseId, $utilisateurId) {
+        return $this->courseModel->inscrireEtudiant($courseId, $utilisateurId);
+    }
+
+    public function estInscrit($courseId, $utilisateurId) {
+        return $this->courseModel->estInscrit($courseId, $utilisateurId);
+    }
 
 }

@@ -261,5 +261,26 @@ class CourseModel{
         $stmt->bindParam(':courseId', $courseId);
         $stmt->execute();
     }
+
+    // inscription d'un etudiant a un course 
+    public function inscrireEtudiant($courseId, $utilisateurId) {
+        $query = "INSERT INTO inscription (course_id, utilisateur_id) 
+                    VALUES (:courseId, :utilisateurId)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':courseId', $courseId);
+        $stmt->bindValue(':utilisateurId', $utilisateurId);
+        return $stmt->execute();
+    }
+
+    public function estInscrit($courseId, $utilisateurId) {
+        $query = "SELECT * FROM inscription 
+                    WHERE course_id = :courseId 
+                    AND utilisateur_id = :utilisateurId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':courseId', $courseId);
+        $stmt->bindValue(':utilisateurId', $utilisateurId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
     
 }

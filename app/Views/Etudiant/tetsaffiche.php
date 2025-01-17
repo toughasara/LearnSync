@@ -1,36 +1,39 @@
 <?php
-    // session_start();
-    // if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "etudiant") {
-    //     header("Location: ../../auth/login.php");
-    //     exit();
-    // }
-    require_once("../../../vendor/autoload.php");
-    use App\Controllers\Enseignant\CourseController;
+session_start();
+if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "etudiant") {
+    header("Location: ../../auth/login.php");
+    exit();
+}
 
-    $courseController = new courseController();
-    $courses = $courseController->getAllCourses();
-    
-    // Gérer l'inscription
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['course_id'])) {
-        $courseId = $_POST['course_id'];
-        $utilisateurId = $_SESSION["id"];
+require_once("../../../vendor/autoload.php");
+use App\Controllers\Enseignant\CourseController;
 
-        if (!$courseController->estInscrit($courseId, $utilisateurId)) {
-            $courseController->inscrireEtudiant($courseId, $utilisateurId);
-            echo "<script>alert('Vous etes inscrie au course avec succee.');</script>";
-        } else {
-            echo "<script>alert('Vous etes deja inscrie au course.');</script>";
-        }
+$courseController = new CourseController();
+$courses = $courseController->getAllCourses();
+
+// Gérer l'inscription
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['course_id'])) {
+    $courseId = $_POST['course_id'];
+    $utilisateurId = $_SESSION["id"];
+
+    if (!$courseController->estInscrit($courseId, $utilisateurId)) {
+        $courseController->inscrireEtudiant($courseId, $utilisateurId);
+        header("Location: coursdisponibles.php");
+        exit();
+    } else {
+        echo "<script>alert('Vous êtes déjà inscrit à ce cours.');</script>";
     }
-    // Configuration de la pagination
-    $items_per_page = 6;
-    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $total_items = count($courses);
-    $total_pages = ceil($total_items / $items_per_page);
-    $offset = ($current_page - 1) * $items_per_page;
+}
 
-    // Extraire les cours pour la page courante
-    $current_courses = array_slice($courses, $offset, $items_per_page);
+// Configuration de la pagination
+$items_per_page = 6;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$total_items = count($courses);
+$total_pages = ceil($total_items / $items_per_page);
+$offset = ($current_page - 1) * $items_per_page;
+
+// Extraire les cours pour la page courante
+$current_courses = array_slice($courses, $offset, $items_per_page);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -109,7 +112,7 @@
                                 <div class="teacher-info">
                                     <small class="text-muted">
                                         <i class="bi bi-person me-1"></i>
-                                        <?php echo htmlspecialchars($course->getCreatedAt()); ?>
+                                        <?php echo htmlspecialchars($course->getUtilisateur()->getNom()); ?>
                                     </small>
                                 </div>
                                 <div>
