@@ -9,6 +9,22 @@
     $enseignants = $utilisateurController->getEnseignants();
     $etudiants = $utilisateurController->getEtudiants();
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'];
+
+        if(isset($_POST['status'])){
+            $status = $_POST['status'];
+            $utilisateurController->updateUserStatus($id, $status);
+        }
+        else{
+            $utilisateurController->softDeleteUser($id);
+        }
+    
+        $enseignants = $utilisateurController->getEnseignants();
+        $etudiants = $utilisateurController->getEtudiants();
+
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -73,13 +89,42 @@
                                             <?php echo '<td>' . $enseignant->getNom(). '</td>' ?>
                                             <?php echo '<td>' . $enseignant->getEmail(). '</td>' ?>
                                             <?php echo '<td>' . $enseignant->getCreatedAt(). '</td>' ?>
-                                            <?php echo '<td><span class="status-badge status-' . $enseignant->getStatus() . '">' . $enseignant->getStatus() . '</span></td>'; ?>
+                                            <?php 
+                                                $status = ($enseignant->getDeletedAt() !== null) ? 'deleted' : $enseignant->getStatus();
+                                                echo '<td><span class="status-badge status-' . $status . '">' . $status . '</span></td>'; 
+                                            ?>
                                             <td>
-                                                <a href="#" class="action-btn suspend-btn"><i class="bi bi-pause-circle"></i></a>
-                                                <a href="affichens.php?id=<?php echo $enseignant->getId(); ?>" class="action-btn delete-btn"><i class="bi bi-trash"></i></a>
-                                                <?php if ($enseignant->getStatus() !== 'active'): ?>
-                                                    <a href="#" class="action-btn activate-btn"><i class="bi bi-check-circle"></i></a>
-                                                <?php endif; ?>
+                                                <!-- suspended -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $enseignant->getId() ?>">
+                                                    <input type="hidden" name="status" value="suspended">
+                                                    <button type="submit" class="action-btn suspend-btn">
+                                                        <i class="bi bi-pause-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- Activer -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $enseignant->getId() ?>">
+                                                    <input type="hidden" name="status" value="active">
+                                                    <button type="submit" class="action-btn activate-btn">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- inactive -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $enseignant->getId() ?>">
+                                                    <input type="hidden" name="status" value="inactive">
+                                                    <button type="submit" class="action-btn deactivate-btn">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- Soft Delete -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $enseignant->getId() ?>">
+                                                    <button type="submit" class="action-btn delete-btn">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -113,10 +158,42 @@
                                             <?php echo '<td>' . $etudiant->getNom(). '</td>' ?>
                                             <?php echo '<td>' . $etudiant->getEmail(). '</td>' ?>
                                             <?php echo '<td>' . $etudiant->getCreatedAt(). '</td>' ?>
-                                            <?php echo '<td><span class="status-badge status-' . $etudiant->getStatus() . '">' . $etudiant->getStatus() . '</span></td>'; ?>
+                                            <?php 
+                                                $status = ($etudiant->getDeletedAt() !== null) ? 'deleted' : $etudiant->getStatus();
+                                                echo '<td><span class="status-badge status-' . $status . '">' . $status . '</span></td>'; 
+                                            ?>
                                             <td>
-                                                <a href="#" class="action-btn suspend-btn"><i class="bi bi-pause-circle"></i></a>
-                                                <a href="affichens.php?id=<?php echo $etudiant->getId(); ?>" class="action-btn delete-btn"><i class="bi bi-trash"></i></a>
+                                                <!-- suspended -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $etudiant->getId() ?>">
+                                                    <input type="hidden" name="status" value="suspended">
+                                                    <button type="submit" class="action-btn suspend-btn">
+                                                        <i class="bi bi-pause-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- Activer -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $etudiant->getId() ?>">
+                                                    <input type="hidden" name="status" value="active">
+                                                    <button type="submit" class="action-btn activate-btn">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- inactive -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $etudiant->getId() ?>">
+                                                    <input type="hidden" name="status" value="inactive">
+                                                    <button type="submit" class="action-btn deactivate-btn">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <!-- Soft Delete -->
+                                                <form action="" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id" value="<?= $etudiant->getId() ?>">
+                                                    <button type="submit" class="action-btn delete-btn">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

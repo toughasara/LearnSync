@@ -38,7 +38,7 @@ class UtilisateurModel{
         
         $etudiant_objects = [];
         foreach ($etudiants as $etudiant) {
-            $etudiant_objects [] = new Utilisateur($etudiant['id'],$etudiant['nom'],$etudiant['email'],$etudiant['password'],$etudiant['role'],$etudiant['status'],$etudiant['created_at'],$enseignant['deleted_at']);
+            $etudiant_objects [] = new Utilisateur($etudiant['id'],$etudiant['nom'],$etudiant['email'],$etudiant['password'],$etudiant['role'],$etudiant['status'],$etudiant['created_at'],$etudiant['deleted_at']);
         }
 
         return $etudiant_objects;

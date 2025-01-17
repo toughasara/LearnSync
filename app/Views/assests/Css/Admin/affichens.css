@@ -68,6 +68,13 @@
     background-color: rgba(52, 152, 219, 0.1);
     color: #3498db;
 }
+.status-deleted {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
 
 @media (max-width: 992px) {
     #sidebar {
