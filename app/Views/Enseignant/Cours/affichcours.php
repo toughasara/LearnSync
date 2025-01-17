@@ -10,16 +10,15 @@
         $courseController->deleteCourse($courseId);
         $courses = $courseController->getAllCourses();
     }
-    
-    // Configuration de la pagination
+
     $items_per_page = 6;
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $total_items = count($courses);
     $total_pages = ceil($total_items / $items_per_page);
     $offset = ($current_page - 1) * $items_per_page;
 
-    // Extraire les cours pour la page courante
     $current_courses = array_slice($courses, $offset, $items_per_page);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -138,6 +137,5 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assests/js/Enseignant/affichcours.js"></script>
 </body>
 </html>
