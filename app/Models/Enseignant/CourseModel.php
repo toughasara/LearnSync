@@ -66,12 +66,16 @@ class CourseModel{
             JOIN categories cat ON c.category_id = cat.id
             LEFT JOIN course_tags ct ON c.id = ct.course_id
             LEFT JOIN tags t ON ct.tag_id = t.id
-        ";
+            ORDER BY c.id;";
+            
     
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
     
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // var_dump($results);
+        // exit;
     
         $courses = [];
         foreach ($results as $row) {
