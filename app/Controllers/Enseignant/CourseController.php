@@ -24,6 +24,11 @@ class CourseController{
         $this->courseModel->addCourse($course, $tags);
     }
 
+    // recuperer tout les cours d'un enseignant
+    public function getAllCoursesutil($utilisateurId) {
+        return $this->courseModel->getAllCoursesutil($utilisateurId);
+    }
+    
     // Récupérer tous les cours
     public function getAllCourses() {
         return $this->courseModel->getAllCourses();
@@ -59,6 +64,10 @@ class CourseController{
 
     public function estInscrit($courseId, $utilisateurId) {
         return $this->courseModel->estInscrit($courseId, $utilisateurId);
+    }
+
+    public function getCoursInscrits($utilisateurId) {
+        return $this->courseModel->getCoursInscrits($utilisateurId);
     }
 
 }

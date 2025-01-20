@@ -45,6 +45,80 @@ class CourseModel{
         }
     }
 
+    //get all courses of a user
+    public function getAllCoursesutil($utilisateurId){
+        $query = "SELECT 
+            c.id AS course_id,
+            c.title,
+            c.description,
+            c.content_type,
+            c.content_url,
+            c.created_at,
+            u.id AS utilisateur_id,
+            u.nom AS utilisateur_nom,
+            cat.id AS categorie_id,
+            cat.nom AS categorie_nom,
+            cat.description AS categorie_description,
+            t.id AS tag_id,
+            t.nom AS tag_nom
+        FROM courses c
+        JOIN utilisateurs u ON c.utilisateur_id = u.id
+        JOIN categories cat ON c.category_id = cat.id
+        LEFT JOIN course_tags ct ON c.id = ct.course_id
+        LEFT JOIN tags t ON ct.tag_id = t.id
+        WHERE (:utilisateurId IS NULL OR c.utilisateur_id = :utilisateurId)
+        ORDER BY c.id;";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $courses = [];
+    foreach ($results as $row) {
+        $courseId = $row['course_id'];
+
+        if (!isset($courses[$courseId])) {
+            $utilisateur = new Utilisateur(
+                $row['utilisateur_id'],
+                $row['utilisateur_nom'],
+                null,
+                null,
+                null,
+                null,
+                null,
+                null 
+            );
+
+            $categorie = new Categorie(
+                $row['categorie_id'],
+                $row['categorie_nom'],
+                $row['categorie_description']
+            );
+
+            $courses[$courseId] = new Course(
+                $row['course_id'],
+                $row['title'],
+                $row['description'],
+                $row['content_type'],
+                $row['content_url'],
+                $utilisateur,
+                $categorie,
+                [], 
+                $row['created_at']
+            );
+        }
+
+        if ($row['tag_id'] !== null) {
+            $tag = new Tag($row['tag_id'], $row['tag_nom']);
+            $courses[$courseId]->setTags(array_merge($courses[$courseId]->getTags(), [$tag]));
+        }
+    }
+
+    return array_values($courses);
+    }
+
     //get all courses
     public function getAllCourses() {
         $query = "SELECT 
@@ -285,6 +359,86 @@ class CourseModel{
         $stmt->bindValue(':utilisateurId', $utilisateurId);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
+
+    // les cours de l'inscription
+    public function getCoursInscrits($utilisateurId) {
+        try {
+            $query = "SELECT 
+                    c.id AS course_id,
+                    c.title,
+                    c.description,
+                    c.content_type,
+                    c.content_url,
+                    c.created_at,
+                    u.id AS utilisateur_id,
+                    u.nom AS utilisateur_nom,
+                    cat.id AS categorie_id,
+                    cat.nom AS categorie_nom,
+                    cat.description AS categorie_description,
+                    t.id AS tag_id,
+                    t.nom AS tag_nom
+                FROM courses c
+                JOIN inscription i ON c.id = i.course_id
+                JOIN utilisateurs u ON c.utilisateur_id = u.id
+                JOIN categories cat ON c.category_id = cat.id
+                LEFT JOIN course_tags ct ON c.id = ct.course_id
+                LEFT JOIN tags t ON ct.tag_id = t.id
+                WHERE i.utilisateur_id = :utilisateurId
+                ORDER BY c.id;";
+    
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            $courses = [];
+            foreach ($results as $row) {
+                $courseId = $row['course_id'];
+    
+                if (!isset($courses[$courseId])) {
+                    $utilisateur = new Utilisateur(
+                        $row['utilisateur_id'],
+                        $row['utilisateur_nom'],
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null 
+                    );
+    
+                    $categorie = new Categorie(
+                        $row['categorie_id'],
+                        $row['categorie_nom'],
+                        $row['categorie_description']
+                    );
+    
+                    $courses[$courseId] = new Course(
+                        $row['course_id'],
+                        $row['title'],
+                        $row['description'],
+                        $row['content_type'],
+                        $row['content_url'],
+                        $utilisateur,
+                        $categorie,
+                        [], 
+                        $row['created_at']
+                    );
+                }
+    
+                if ($row['tag_id'] !== null) {
+                    $tag = new Tag($row['tag_id'], $row['tag_nom']);
+                    $courses[$courseId]->setTags(array_merge($courses[$courseId]->getTags(), [$tag]));
+                }
+            }
+    
+            return array_values($courses);
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des cours inscrits : " . $e->getMessage());
+            return [];
+        }
     }
     
 }

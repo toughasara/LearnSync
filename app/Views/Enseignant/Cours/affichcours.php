@@ -2,8 +2,17 @@
     require_once("../../../../vendor/autoload.php");
     use App\Controllers\Enseignant\CourseController;
 
+    session_start();
+
+    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "enseignant") {
+        header("Location: ../../Auth/login.php");
+        exit();
+    }
+
+    $utilisateurId = $_SESSION["id"];
+
     $courseController = new courseController();
-    $courses = $courseController->getAllCourses();
+    $courses = $courseController->getAllCoursesutil($utilisateurId);
 
     if (isset($_GET['delete_id'])) {
         $courseId = $_GET['delete_id'];

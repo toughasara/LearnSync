@@ -1,27 +1,18 @@
 <?php
-    // session_start();
-    // if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "etudiant") {
-    //     header("Location: ../../auth/login.php");
-    //     exit();
-    // }
+    session_start();
+    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "etudiant") {
+        header("Location: ../../auth/login.php");
+        exit();
+    }
+
     require_once("../../../vendor/autoload.php");
     use App\Controllers\Enseignant\CourseController;
 
-    $courseController = new courseController();
-    $courses = $courseController->getAllCourses();
+    $courseController = new CourseController();
+    $utilisateurId = $_SESSION["id"];
+    // Récupérer uniquement les cours où l'étudiant est inscrit
+    $courses = $courseController->getCoursInscrits($utilisateurId);
     
-    // Gérer l'inscription
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['course_id'])) {
-        $courseId = $_POST['course_id'];
-        $utilisateurId = $_SESSION["id"];
-
-        if (!$courseController->estInscrit($courseId, $utilisateurId)) {
-            $courseController->inscrireEtudiant($courseId, $utilisateurId);
-            echo "<script>alert('Vous etes inscrie au course avec succee.');</script>";
-        } else {
-            echo "<script>alert('Vous etes deja inscrie au course.');</script>";
-        }
-    }
     // Configuration de la pagination
     $items_per_page = 6;
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -37,7 +28,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cours Disponibles - Youdemy</title>
+    <title>Mes Cours - Youdemy</title>
     <link rel="stylesheet" href="../assests/css/Enseignant/menuens.css">
     <link rel="stylesheet" href="../assests/css/Enseignant/gererens.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
@@ -46,21 +37,21 @@
 <body class="bg-light">
     <div class="dashboard-header text-center">
         <div class="container">
-            <h1>Cours Disponibles</h1>
-            <p>Découvrez notre catalogue de cours et inscrivez-vous</p>
+            <h1>Mes Cours</h1>
+            <p>Accédez à vos cours et suivez votre progression</p>
         </div>
     </div>
     <div class="container">
         <div class="menu-buttons">
             <div class="row g-3">
                 <div class="col-12 col-md-6">
-                    <a href="coursdisponibles.php" class="menu-btn active">
+                    <a href="index.php" class="menu-btn">
                         <i class="bi bi-collection"></i>
                         Cours Disponibles
                     </a>
                 </div>
                 <div class="col-12 col-md-6">
-                    <a href="mescours.php" class="menu-btn">
+                    <a href="mescours.php" class="menu-btn active">
                         <i class="bi bi-journal-check"></i>
                         Mes Cours
                     </a>
@@ -75,7 +66,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Rechercher un cours..." id="recherche-cours">
+                    <input type="text" class="form-control" placeholder="Rechercher dans mes cours..." id="recherche-cours">
                 </div>
             </div>
             <div class="col-md-4">
@@ -90,8 +81,17 @@
 
         <!-- Grille des cours -->
         <div class="row" id="courses-container">
-            <?php foreach($current_courses as $course): ?>
-                <div class="col-md-4">
+            <?php if(empty($current_courses)): ?>
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Vous n'êtes inscrit à aucun cours pour le moment. 
+                        <a href="coursdisponibles.php" class="alert-link">Découvrez nos cours disponibles</a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?php foreach($current_courses as $course): ?>
+                    <div class="col-md-4">
                     <div class="course-card">
                         <div class="course-image">
                             <img src="https://via.placeholder.com/300x200" alt="<?php echo htmlspecialchars($course->getTitle()); ?>">
@@ -116,39 +116,36 @@
                                     <a href="detailscours.php?course_id=<?php echo $course->getId(); ?>" class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-info-circle me-1"></i>Détails
                                     </a>
-                                    <form action="" method="POST" style="display: inline;">
-                                        <input type="hidden" name="course_id" value="<?php echo $course->getId(); ?>">
-                                        <button type="submit" class="btn btn-success btn-sm ms-2">
-                                            <i class="bi bi-person-plus me-1"></i>S'inscrire
-                                        </button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
         
         <!-- Pagination -->
-        <nav aria-label="Navigation des pages">
-            <ul class="pagination">
-                <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" <?php echo ($current_page <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>Précédent</a>
-                </li>
-                <?php for($i = 1; $i <= $total_pages; $i++): ?>
-                    <li class="page-item <?php echo ($current_page == $i) ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php if(!empty($current_courses)): ?>
+            <nav aria-label="Navigation des pages">
+                <ul class="pagination">
+                    <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" <?php echo ($current_page <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>Précédent</a>
                     </li>
-                <?php endfor; ?>
-                <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Suivant</a>
-                </li>
-            </ul>
-        </nav>
+                    <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?php echo ($current_page == $i) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assests/js/Etudiant/coursdisponibles.js"></script>
+    <script src="../../assests/js/Etudiant/mescours.js"></script>
 </body>
 </html>
