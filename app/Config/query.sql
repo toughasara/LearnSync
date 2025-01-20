@@ -32,6 +32,11 @@ CREATE TABLE courses (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
+select caunt(id)
+from inscription
+join courses ON inscription.course_id = courses.id
+where courses.utilisateur_id = :id;
+
 CREATE TABLE tags (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL UNIQUE,

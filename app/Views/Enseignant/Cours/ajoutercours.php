@@ -26,7 +26,7 @@
         $courseController = new CourseController();
         $courseController->addCourse($title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags);
     
-        header("Location: affichcours.php");
+        header("Location: ../index.php");
         exit;
     }
 

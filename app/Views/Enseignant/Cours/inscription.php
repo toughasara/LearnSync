@@ -41,10 +41,129 @@ if (isset($_GET['desinscription_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Inscrits - <?php echo htmlspecialchars($course->getTitle()); ?></title>
-    <link rel="stylesheet" href="../assests/css/Enseignant/menuens.css">
-    <link rel="stylesheet" href="../assests/css/Enseignant/gererens.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+    --primary-color: #2C3E50;
+    --secondary-color: #3498DB;
+    --accent-color: #E74C3C;
+    --light-gray: #F8F9FA;
+}
+
+body {
+    background-color: var(--light-gray);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.menu-buttons {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+    border: none;
+    text-decoration: none !important;
+}
+
+.menu-btn:link,
+.menu-btn:visited,
+.menu-btn:hover,
+.menu-btn:active {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.menu-buttons a {
+    text-decoration: none !important;
+}
+
+.menu-btn:hover, .menu-btn.active {
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none !important;
+}
+.course-card {
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+    height: 100%;
+}
+
+.course-card:hover {
+    transform: translateY(-2px);
+}
+
+.course-image {
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-content {
+    padding: 1.5rem;
+}
+
+.tag {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.pagination {
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.page-link {
+    color: var(--primary-color);
+    border-color: var(--secondary-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .menu-buttons .row > div {
+        margin-bottom: 1rem;
+    }
+}
+    </style>
 </head>
 <body class="bg-light">
     <div class="dashboard-header text-center">
