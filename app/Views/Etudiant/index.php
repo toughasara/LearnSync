@@ -15,10 +15,10 @@
 
     $courses = $courseController->getAllCourses();
     
-    // Récupérer le terme de recherche
+    // le terme de recherche
     $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-    // Récupérer tous les cours ou filtrer par recherche
+    // tous les cours ou filtrer par recherche
     if (!empty($searchTerm)) {
         $courses = $courseController->searchCourses($searchTerm);
     } else {
