@@ -1,0 +1,110 @@
+:root {
+    --primary-color: #2C3E50;
+    --secondary-color: #3498DB;
+    --accent-color: #E74C3C;
+    --light-gray: #F8F9FA;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #2C3E50;
+    background-color: #F8F9FA;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+    padding: 100px 0;
+    color: white;
+    margin-top: 56px;
+}
+
+.search-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.job-card {
+    background: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.category-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.category-icon {
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.category-card:hover .category-icon {
+    color: white;
+}
+
+.stats-section {
+    background: white;
+    padding: 60px 0;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #2980B9;
+}
+
+footer {
+    background: var(--primary-color);
+    color: white;
+    padding: 60px 0 30px;
+}
+
+.company-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}

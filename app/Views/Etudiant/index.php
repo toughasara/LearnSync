@@ -15,6 +15,16 @@
 
     $courses = $courseController->getAllCourses();
     
+    // Récupérer le terme de recherche
+    $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+    // Récupérer tous les cours ou filtrer par recherche
+    if (!empty($searchTerm)) {
+        $courses = $courseController->searchCourses($searchTerm);
+    } else {
+        $courses = $courseController->getAllCourses();
+    }
+
     // Gérer l'inscription
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['course_id'])) {
         $courseId = $_POST['course_id'];
@@ -77,12 +87,13 @@
         <!-- Barre de recherche et filtres -->
         <div class="row mb-4">
             <div class="col-md-8">
-                <div class="input-group">
+                <form action="" method="GET" class="input-group">
                     <span class="input-group-text">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Rechercher un cours..." id="recherche-cours">
-                </div>
+                    <input type="text" class="form-control" placeholder="Rechercher un cours..." name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
             </div>
             <div class="col-md-4">
                 <select class="form-select" id="filtre-categorie">
@@ -140,15 +151,15 @@
         <nav aria-label="Navigation des pages">
             <ul class="pagination">
                 <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" <?php echo ($current_page <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>Précédent</a>
+                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>&search=<?php echo urlencode($searchTerm); ?>" <?php echo ($current_page <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>Précédent</a>
                 </li>
                 <?php for($i = 1; $i <= $total_pages; $i++): ?>
                     <li class="page-item <?php echo ($current_page == $i) ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($searchTerm); ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
                 <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Suivant</a>
+                    <a class="page-link" href="?page=<?php echo $current_page + 1; ?>&search=<?php echo urlencode($searchTerm); ?>">Suivant</a>
                 </li>
             </ul>
         </nav>

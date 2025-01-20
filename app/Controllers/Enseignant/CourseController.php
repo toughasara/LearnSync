@@ -57,19 +57,9 @@ class CourseController{
         return $this->courseModel->deleteCourse($courseId);
     }
 
-    // // inscription d'un etudiant a un course 
-    // public function inscrireEtudiant($courseId, $utilisateurId) {
-    //     return $this->courseModel->inscrireEtudiant($courseId, $utilisateurId);
-    // }
-
-    // // verifier l'inscription a un cours
-    // public function estInscrit($courseId, $utilisateurId) {
-    //     return $this->courseModel->estInscrit($courseId, $utilisateurId);
-    // }
-
-    // // get les cours inscrie pour etudiant
-    // public function getCoursInscrits($utilisateurId) {
-    //     return $this->courseModel->getCoursInscrits($utilisateurId);
-    // }
+    // recherche
+    public function searchCourses($searchTerm) {
+        return $this->courseModel->searchCourses($searchTerm);
+    }
 
 }
