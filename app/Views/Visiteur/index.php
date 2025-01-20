@@ -49,10 +49,15 @@ $current_courses = array_slice($courses, $offset, $items_per_page);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary me-2" href="catalogue.php">Cours</a>
+                        <a class="btn btn-primary" href="catalogue.php">Cours</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="auth/connexion.php">Connexion</a>
+                        <a class="btn btn-primary" href="../index.php">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="../auth/login.php">Connexion</a>
                     </li>
                 </ul>
             </div>
