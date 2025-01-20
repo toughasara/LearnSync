@@ -1,7 +1,8 @@
 <?php
-require_once("../../../vendor/autoload.php");
-use App\Controllers\Enseignant\CourseController;
+require_once("../../../../vendor/autoload.php");
 use App\Controllers\Enseignant\InscriptionController;
+use App\Controllers\Enseignant\CourseController;
+
 
 session_start();
 
@@ -16,19 +17,18 @@ if (!isset($_GET['course_id'])) {
 }
 
 $courseId = $_GET['course_id'];
+$inscriptionController = new InscriptionController();
 $courseController = new CourseController();
-// $inscriptionController = new InscriptionController();
 
-// $inscrits = $inscriptionController->getInscriptionsByCourse($courseId);
+$course = $courseController->trouvercourse($courseId);
 
 // Récupérer la liste des étudiants inscrits
-$course = $courseController->trouvercourse($courseId);
-$inscrits = $courseController->getInscriptionsByCourse($courseId);
+$inscrits = $inscriptionController->getInscriptionsByCourse($courseId);
 
 // Gérer la désinscription
 if (isset($_GET['desinscription_id'])) {
     $inscriptionId = $_GET['desinscription_id'];
-    $courseController->desinscrireEtudiant($inscriptionId);
+    $inscriptionController->desinscrireEtudiant($inscriptionId);
     // Rediriger pour éviter la resoumission du formulaire
     header("Location: inscription.php?course_id=" . $courseId);
     exit();
@@ -58,7 +58,7 @@ if (isset($_GET['desinscription_id'])) {
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Étudiants inscrits</h5>
-                <a href="index.php" class="btn btn-outline-primary">
+                <a href="../index.php" class="btn btn-outline-primary">
                     <i class="bi bi-arrow-left me-2"></i>Retour aux cours
                 </a>
             </div>
@@ -85,7 +85,7 @@ if (isset($_GET['desinscription_id'])) {
                                         <td><?php echo htmlspecialchars($inscrit->getEtudiant()->getEmail()); ?></td>
                                         <td><?php echo htmlspecialchars($inscrit->getDateInscription()); ?></td>
                                         <td>
-                                            <a href="inscriptions.php?course_id=<?php echo $courseId; ?>&desinscription_id=<?php echo $inscrit->getId(); ?>" 
+                                            <a href="inscription.php?course_id=<?php echo $courseId; ?>&desinscription_id=<?php echo $inscrit->getId(); ?>" 
                                             class="btn btn-outline-danger btn-sm">
                                                 <i class="bi bi-person-x me-1"></i>Désinscrire
                                             </a>
