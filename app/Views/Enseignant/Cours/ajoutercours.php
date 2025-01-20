@@ -55,7 +55,7 @@
             <div class="row g-3">
                 <div class="col-12 col-md-4">
                     <!-- Bouton "Mes Cours" -->
-                    <a href="affichcours.php" class="menu-btn">
+                    <a href="../index.php" class="menu-btn">
                         <i class="bi bi-collection"></i>
                         Mes Cours
                     </a>

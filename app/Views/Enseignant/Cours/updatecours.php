@@ -64,7 +64,7 @@
         <div class="menu-buttons">
             <div class="row g-3">
             <div class="col-12 col-md-4">
-                <a href="affichcours.php" class="menu-btn active">
+                <a href="../index.php" class="menu-btn active">
                     <i class="bi bi-collection"></i>
                     Mes Cours
                 </a>
