@@ -8,8 +8,11 @@
 
     require_once("../../../vendor/autoload.php");
     use App\Controllers\Enseignant\CourseController;
+    use App\Controllers\Enseignant\InscriptionController;
 
+    $inscriptionController = new InscriptionController();
     $courseController = new courseController();
+
     $courses = $courseController->getAllCourses();
     
     // Gérer l'inscription
@@ -17,8 +20,8 @@
         $courseId = $_POST['course_id'];
         $utilisateurId = $_SESSION["id"];
 
-        if (!$courseController->estInscrit($courseId, $utilisateurId)) {
-            if($courseController->inscrireEtudiant($courseId, $utilisateurId)){
+        if (!$inscriptionController->estInscrit($courseId, $utilisateurId)) {
+            if($inscriptionController->inscrireEtudiant($courseId, $utilisateurId)){
                 echo "<script>alert('Vous etes inscrie au course avec succee.');</script>";
             }
         } else {

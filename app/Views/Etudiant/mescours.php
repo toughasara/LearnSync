@@ -6,12 +6,13 @@
     }
 
     require_once("../../../vendor/autoload.php");
-    use App\Controllers\Enseignant\CourseController;
+    use App\Controllers\Enseignant\InscriptionController;
 
-    $courseController = new CourseController();
+    $inscriptionController = new InscriptionController();
+
     $utilisateurId = $_SESSION["id"];
     // Récupérer uniquement les cours où l'étudiant est inscrit
-    $courses = $courseController->getCoursInscrits($utilisateurId);
+    $courses = $inscriptionController->getCoursInscrits($utilisateurId);
     
     // Configuration de la pagination
     $items_per_page = 6;
