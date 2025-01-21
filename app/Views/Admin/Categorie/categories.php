@@ -2,7 +2,7 @@
 
 
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\CategorieController;
+    use App\Controllers\Admin\CategorieController;
 
     $categorieController = new CategorieController();
 

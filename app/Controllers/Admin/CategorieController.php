@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 use App\Classes\Categorie;
-use App\Models\CategorieModel;
+use App\Models\Admin\CategorieModel;
 
 class CategorieController{
 
@@ -15,30 +15,30 @@ class CategorieController{
     // ajouter une categorie
     public function addcategorie($nom,$description){
         $categorie = new Categorie(null, $nom,$description);
-        $this->categorieModel->savecategorie($categorie);
+        $this->categorieModel->create($categorie);
     }
 
     // get tout les categories
     public function getCategories(){
-        return $this->categorieModel->getAllCategories();
+        return $this->categorieModel->getAll();
     }
 
     // modifier une categorie
     public function updateCategorie($category_id, $nom , $description){
         $categorie = new Categorie($category_id ,$nom ,$description);
-        $this->categorieModel->updateCategorie($categorie);
+        $this->categorieModel->update($categorie);
     }
 
     // trouver une categorie
     public function trouvercategorie($category_id){
         $id = $category_id;
-        return $this->categorieModel->trouvercategorie($id);
+        return $this->categorieModel->find($id);
     }
 
     // supprimer une categorie 
     public function deleteCategoryById($category_id){
         $id = $category_id;
-        $this->categorieModel->supprimerCayegorie($id);
+        $this->categorieModel->delete($id);
     }
 
 }

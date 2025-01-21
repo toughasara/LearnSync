@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\TagController;
+    use App\Controllers\Admin\TagController;
     
     $tagController = new TagController();
 

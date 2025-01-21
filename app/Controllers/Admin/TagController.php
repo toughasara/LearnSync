@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 use App\Classes\Tag;
-use App\Models\TagModel;
+use App\Models\Admin\TagModel;
 
 class TagController{
 
@@ -42,7 +42,7 @@ class TagController{
     // supprimer une tag 
     public function deleteTagById($tag_id){
         $id = $tag_id;
-        $this->tagModel->supprimertag($id);
+        $this->tagModel->delete($id);
     }
     
 

@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use App\Classes\Categorie;
+use App\Models\Admin\BaseModel;
 use App\Config\Database;
 use PDO;
 
-class CategorieModel{
-    private $conn;
+
+class CategorieModel extends BaseModel{
 
     public function __construct() {
+        parent::__construct('categories');
         $db = new Database();
         $this->conn = $db->connection();
     }
+
     // get categorie
-    public function trouvercategorie($id){
-        $queryFindCategorie = "SELECT * FROM categories where id = :id";
+    public function find($id){
+        $queryFindCategorie = "SELECT * FROM $this->table_name where id = :id";
         $stmtselectCategorie = $this->conn->prepare($queryFindCategorie);
         $stmtselectCategorie->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtselectCategorie->execute();
@@ -28,8 +31,8 @@ class CategorieModel{
     }
 
     // get tout les categories
-    public function getAllCategories(){
-        $queryFindCategorie = "SELECT * FROM categories";
+    public function getAll(){
+        $queryFindCategorie = "SELECT * FROM $this->table_name";
         $stmtselectCategorie = $this->conn->prepare($queryFindCategorie);
         $stmtselectCategorie->execute();
         $categories = $stmtselectCategorie->fetchAll(\PDO::FETCH_ASSOC);
@@ -43,12 +46,12 @@ class CategorieModel{
     }
     
     // savecategorie
-    public function savecategorie($categorie){
+    public function create($categorie){
 
         $nom = $categorie->getNom();
         $description = $categorie->getDescription();
 
-        $queryCategorie = "INSERT INTO categories (nom, description) 
+        $queryCategorie = "INSERT INTO $this->table_name (nom, description) 
                             VALUES (:nom, :description)";
 
         $stmtcategorie = $this->conn->prepare($queryCategorie);
@@ -60,19 +63,19 @@ class CategorieModel{
     }
 
     // supprimer categorie
-    public function supprimerCayegorie($id){
-        $query = "DELETE FROM categories WHERE id = $id";
+    public function delete($id){
+        $query = "DELETE FROM $this->table_name WHERE id = $id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
     }
 
     // modifier categorie
-    public function updateCategorie($categorie){
+    public function update($categorie){
         $id = $categorie->getId();
         $nom = $categorie->getNom();
         $description = $categorie->getDescription();
 
-        $query = "UPDATE categories 
+        $query = "UPDATE $this->table_name 
                 SET nom = :nom , description = :description
                 WHERE id = :id";
 
