@@ -80,10 +80,6 @@
 
         <div class="course-list">
             <h3>Inscriptions par cours</h3>
-            <div class="course-item">
-                <span class="course-name">Introduction à la programmation</span>
-                <span class="course-enrollments">250 inscriptions</span>
-            </div>
             <?php if (!empty($inscriptionsParCours)): ?>
                 <?php foreach ($inscriptionsParCours as $cours): ?>
                     <div class="course-item">
