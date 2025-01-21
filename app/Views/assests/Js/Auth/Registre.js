@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const studentForm = document.getElementById('studentForm');
     const teacherForm = document.getElementById('teacherForm');
 
+    studentForm.style.display = "block";
+    teacherForm.style.display = "none";
+
+    studentBtn.classList.add("active");
+    teacherBtn.classList.remove("active");
+
     studentBtn.addEventListener('click', function() {
         studentBtn.classList.add('active');
         teacherBtn.classList.remove('active');

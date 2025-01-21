@@ -23,12 +23,6 @@ if(isset($_POST["submit"]))
 
         header("Location: login.php");
             exit;
-        // if ($this->userModel->Registre($utilisateur)) {
-        //     header("Location: login.php");
-        //     exit;
-        // } else {
-        //     echo "Une erreur s'est produite lors de l'inscription.";
-        // }
 
     }
 }
@@ -62,7 +56,7 @@ if(isset($_POST["submit"]))
             </div>
 
             <!-- Formulaire Enseignant -->
-            <form id="teacherForm" method="POST" action="">
+            <form id="teacherForm" method="POST" action="" style="display: none;">
                 <input type="text" class="form-control" name="nom" placeholder="Nom">
                 <input type="email" class="form-control" name="email" placeholder="Email">
                 <input type="password" class="form-control" name="password" placeholder="Mot de passe">

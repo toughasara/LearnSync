@@ -49,7 +49,7 @@ $current_courses = array_slice($courses, $offset, $items_per_page);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="catalogue.php">Cours</a>
+                        <a class="btn btn-primary" href="index.php">Cours</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-primary" href="../index.php">
@@ -85,7 +85,7 @@ $current_courses = array_slice($courses, $offset, $items_per_page);
                     <div class="col-md-4">
                         <div class="course-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <img src="https://via.placeholder.com/50" alt="Instructor avatar" class="instructor-avatar">
+                                <img src="../assests/images/imgCourse.png" alt="Instructor avatar" class="instructor-avatar">
                                 <span class="badge bg-light text-primary"><?php echo htmlspecialchars($course->getCategorie()->getNom()); ?></span>
                             </div>
                             <h5><?php echo htmlspecialchars($course->getTitle()); ?></h5>

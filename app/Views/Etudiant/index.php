@@ -111,7 +111,7 @@
                 <div class="col-md-4">
                     <div class="course-card">
                         <div class="course-image">
-                            <img src="https://via.placeholder.com/300x200" alt="<?php echo htmlspecialchars($course->getTitle()); ?>">
+                            <img src="../assests/images/imgCourse.png" alt="<?php echo htmlspecialchars($course->getTitle()); ?>">
                         </div>
                         <div class="course-content">
                             <h3 class="h5 mb-2"><?php echo htmlspecialchars($course->getTitle()); ?></h3>
