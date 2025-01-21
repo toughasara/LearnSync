@@ -18,25 +18,25 @@ class TagController{
 
         foreach ($nomArray as $nom) {
             $tag = new Tag(null, $nom);
-            $this->tagModel->saveTag($tag);
+            $this->tagModel->create($tag);
         }
     }
 
     // get tout les tags
     public function getTags(){
-        return $this->tagModel->getAllTags();
+        return $this->tagModel->getAll();
     }
 
     // modifier une tag
-    public function updatetag($tag_id, $nom){
+    public function updateTag($tag_id, $nom){
         $tag = new Tag($tag_id ,$nom);
-        $this->tagModel->updateTag($tag);
+        $this->tagModel->update($tag);
     }
 
     // trouver une tag
     public function trouvertag($tag_id){
         $id = $tag_id;
-        return $this->tagModel->trouvertag($id);
+        return $this->tagModel->find($id);
     }
 
     // supprimer une tag 

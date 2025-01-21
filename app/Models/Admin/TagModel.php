@@ -3,20 +3,21 @@
 namespace App\Models\Admin;
 
 use App\Classes\Tag;
+use App\Models\Admin\BaseModel;
 use App\Config\Database;
 use PDO;
 
-class TagModel{
-    private $conn;
+class TagModel extends BaseModel{
 
     public function __construct() {
+        parent::__construct('tags');
         $db = new Database();
         $this->conn = $db->connection();
     }
 
     // get tag
-    public function trouvertag($id){
-        $queryFindTag = "SELECT * FROM tags where id = :id";
+    public function find($id){
+        $queryFindTag = "SELECT * FROM $this->table_name where id = :id";
         $stmtselectTag = $this->conn->prepare($queryFindTag);
         $stmtselectTag->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtselectTag->execute();
@@ -29,8 +30,8 @@ class TagModel{
     }
 
     // get tout les tags
-    public function getAllTags(){
-        $queryFindTag = "SELECT * FROM tags";
+    public function getAll(){
+        $queryFindTag = "SELECT * FROM $this->table_name";
         $stmtselectTag = $this->conn->prepare($queryFindTag);
         $stmtselectTag->execute();
         $tags = $stmtselectTag->fetchAll(\PDO::FETCH_ASSOC);
@@ -44,11 +45,11 @@ class TagModel{
     }
     
     // save tag 
-    public function saveTag($tag){
+    public function create($tag){
 
         $nom = $tag->getNom();
 
-        $querytag = "INSERT INTO tags (nom) 
+        $querytag = "INSERT INTO $this->table_name (nom) 
                             VALUES (:nom)";
 
         $stmttag = $this->conn->prepare($querytag);
@@ -59,18 +60,18 @@ class TagModel{
     }
 
     // supprimer tag
-    public function supprimertag($id){
-        $query = "DELETE FROM tags WHERE id = $id";
+    public function delete($id){
+        $query = "DELETE FROM $this->table_name WHERE id = $id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
     }
 
     // modifier tag
-    public function updateTag($tag){
+    public function update($tag){
         $id = $tag->getId();
         $nom = $tag->getNom();
 
-        $query = "UPDATE tags 
+        $query = "UPDATE $this->table_name 
                 SET nom = :nom 
                 WHERE id = :id";
 
