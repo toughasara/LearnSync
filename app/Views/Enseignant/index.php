@@ -1,10 +1,15 @@
 <?php
+    session_start();
     require_once("../../../vendor/autoload.php");
     use App\Controllers\Enseignant\CourseController;
+    use App\Controllers\Auth\AuthController;
+    
+    if (isset($_POST['logout'])) {
+        $authController = new AuthController();
+        $authController->logOut();
+    }
 
-    session_start();
-
-    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "enseignant") {
+    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "enseignant" ||  $_SESSION["status"] !== "active") {
         header("Location: ../../Auth/login.php");
         exit();
     }
@@ -146,6 +151,12 @@
                 </li>
             </ul>
         </nav>
+        <!-- Bouton de déconnexion -->
+        <form method="POST" class="d-inline">
+                <button type="submit" name="logout" class="btn btn-primary me-2">
+                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                </button>
+        </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

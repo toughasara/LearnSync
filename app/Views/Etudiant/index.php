@@ -12,6 +12,12 @@
 
     $inscriptionController = new InscriptionController();
     $courseController = new courseController();
+    use App\Controllers\Auth\AuthController;
+    
+    if (isset($_POST['logout'])) {
+        $authController = new AuthController();
+        $authController->logOut();
+    }
 
     $courses = $courseController->getAllCourses();
     
@@ -163,6 +169,12 @@
                 </li>
             </ul>
         </nav>
+        <!-- Bouton de déconnexion -->
+        <form method="POST" class="d-inline">
+                <button type="submit" name="logout" class="btn btn-primary me-2">
+                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                </button>
+        </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

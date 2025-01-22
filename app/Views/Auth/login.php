@@ -1,7 +1,22 @@
 <?php
-
+session_start();
 require_once("../../../vendor/autoload.php");
 use App\Controllers\Auth\AuthController;
+
+if(isset($_SESSION["role"]) && $_SESSION["role"] == "Administrateur"){
+    header("Location: ../../Views/Admin/index.php");
+    exit();
+}
+if(isset($_SESSION["role"]) && $_SESSION["role"] == "enseignant"){
+    header("Location: ../../Views/Enseignant/index.php");
+    exit();
+}
+if(isset($_SESSION["role"]) && $_SESSION["role"] == "etudiant"){
+    header("Location: ../../Views/Etudiant/index.php");
+    exit();
+}
+
+
 
 if(isset($_POST["submit"]))
 {
@@ -19,7 +34,6 @@ if(isset($_POST["submit"]))
 
     }
 }
-
 
 ?>
 <!DOCTYPE html>

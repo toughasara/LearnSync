@@ -85,4 +85,11 @@ class AuthController{
         }
     }
 
+    public function logOut(){
+        session_unset();
+        session_destroy(); 
+        header("Location: ../Auth/login.php");
+        exit();
+    }
+
 }

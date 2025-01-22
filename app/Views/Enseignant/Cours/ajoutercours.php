@@ -1,8 +1,8 @@
 <?php
 
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\TagController;
-    use App\Controllers\CategorieController;
+    use App\Controllers\Admin\TagController;
+    use App\Controllers\Admin\CategorieController;
     use App\Controllers\Enseignant\CourseController;
 
     $tagController = new TagController();

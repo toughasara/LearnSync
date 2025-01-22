@@ -41,7 +41,7 @@
     <div id="sidebar" class="p-3">
         <h3 class="text-white mb-4 px-2">Youdemy</h3>
         <nav class="nav flex-column">
-            <a href="../Statistique/affichstatiq.php"" class="nav-link">
+            <a href="../index.php" class="nav-link">
                 <i class="bi bi-graph-up"></i> Statistiques
             </a>
             <a href="../Utilisateur/affichens.php" class="nav-link">
