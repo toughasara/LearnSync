@@ -1,8 +1,8 @@
 <?php
     session_start();
     require_once("../../../../vendor/autoload.php");
-    use App\Controllers\TagController;
-    use App\Controllers\CategorieController;
+    use App\Controllers\admin\TagController;
+    use App\Controllers\admin\CategorieController;
     use App\Controllers\Enseignant\CourseController;
 
     $courseController = new CourseController();
@@ -13,12 +13,9 @@
     $categories = $categorieController->getCategories();
 
     if (isset($_GET['update_id'])) {
-        // var_dump("wsel");
-        // exit;
         $course_id = $_GET['update_id'];
         $course = $courseController->trouvercourse($course_id);
-        // var_dump($course);
-        // exit;
+
         if (!$course) {
             die("Le cours n'a pas été trouvé.");
         }
@@ -36,7 +33,7 @@
     
         $courseController->updateCourse( $course_id, $title, $description, $contentType, $contentUrl, $utilisateurId, $categorieId, $tags);
     
-        header("Location: affichcours.php");
+        header("Location: ../index.php");
         exit;
     }
 

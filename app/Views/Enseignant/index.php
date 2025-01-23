@@ -22,7 +22,7 @@
     if (isset($_GET['delete_id'])) {
         $courseId = $_GET['delete_id'];
         $courseController->deleteCourse($courseId);
-        $courses = $courseController->getAllCourses();
+        $courses = $courseController->getAllCoursesutil($utilisateurId);
     }
 
     $items_per_page = 6;

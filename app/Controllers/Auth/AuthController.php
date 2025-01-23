@@ -18,23 +18,27 @@ class AuthController{
         $utilisateur = $this->userModel->findUserByEmailAndPassword($email);
 
         if ($utilisateur === null) {
-            echo "Email pas trouver.";
-            return;
+            $_SESSION['error'] = "Email non trouvé.";
+            header("Location: ../Auth/login.php");
+            exit();
         }
 
         if ($utilisateur->getDeletedAt() !== null) {
-            echo "Ce compte a été supprimé.";
-            return;
+            $_SESSION['error'] = "Ce compte a été supprimé.";
+            header("Location: ../Auth/login.php");
+            exit();
         }
 
         if ($utilisateur->getStatus() !== "active") {
-            echo "Ce compte n'est pas actif.";
-            return;
+            $_SESSION['error'] = "Ce compte n'est pas actif.";
+            header("Location: ../Auth/login.php");
+            exit();
         }
 
         if (!password_verify($password, $utilisateur->getPassword())) {
-            echo "mot de passe incorrect.";
-            return;
+            $_SESSION['error'] = "Mot de passe incorrect.";
+            header("Location: ../Auth/login.php");
+            exit();
         }
 
         $id = $utilisateur->getId();

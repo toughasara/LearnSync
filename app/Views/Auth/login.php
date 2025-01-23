@@ -53,6 +53,19 @@ if(isset($_POST["submit"]))
                 <i class="fas fa-briefcase me-2"></i>Youdemy
             </div>
             <h4 class="text-center mb-4">Connexion</h4>
+            <?php
+                // Afficher les messages d'erreur
+                if (isset($_SESSION['error'])) {
+                    echo '<div class="error-message">' . $_SESSION['error'] . '</div>';
+                    unset($_SESSION['error']); // Supprimer le message après l'affichage
+                }
+
+                // Afficher les messages de succès
+                if (isset($_SESSION['success'])) {
+                    echo '<div class="success-message">' . $_SESSION['success'] . '</div>';
+                    unset($_SESSION['success']); // Supprimer le message après l'affichage
+                }
+            ?>
 
             <form id="loginForm" action="" method="POST">
                 <input type="email" class="form-control" name="email" placeholder="Email" required>
