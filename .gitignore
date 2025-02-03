@@ -2,3 +2,5 @@
 composer.lock
 composer.json
 .env
+test.php
+test2.php
