@@ -1,19 +1,5 @@
 <?php
-
-
-    require_once("../../../../vendor/autoload.php");
-    use App\Controllers\Admin\CategorieController;
-
-    $categorieController = new CategorieController();
-
     $categories = $categorieController->getCategories();
-
-    if (isset($_GET['id'])) {
-        $category_id = $_GET['id'];
-        $categorieController->deleteCategoryById($category_id);
-        $categories = $categorieController->getCategories();
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -61,51 +47,45 @@
                 </div>
             </div>
         </div>
-
-        <!-- Categories List -->
-        <div class="container">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Liste des catégories</h2>
-                        <a href="ajoutcat.php" class="add-btn">
-                            <i class="bi bi-plus-lg me-2"></i> Ajouter une catégorie
-                        </a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($categories): ?>
-                                    <?php foreach ($categories as $category): ?>
-                                        <tr>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Liste des catégories</h2>
+                    <a href="router.php?action=add" class="add-btn">
+                        <i class="bi bi-plus-lg me-2"></i> Ajouter une catégorie
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($categories): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <tr>
                                         <input type="hidden" name="id" value="<?= $category->getId() ?>">
-                                            <?php echo '<td>' . $category->getNom(). '</td>' ?>
-                                            <?php echo '<td>' . $category->getDescription(). '</td>' ?>
-                                            <td>
-                                                <a href="updatecat.php?id=<?php echo $category->getId(); ?>" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                                <a href="categories.php?id=<?php echo $category->getId(); ?>" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                        <?php echo '<td>' . $category->getNom(). '</td>' ?>
+                                        <?php echo '<td>' . $category->getDescription(). '</td>' ?>
+                                        <td>
+                                            <a href="router.php?action=edit&id=<?php echo $category->getId(); ?>" class="action-btn edit-btn me-2" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                            <a href="router.php?action=delete&id=<?php echo $category->getId(); ?>" class="action-btn delete-btn" title="Supprimer"><i class="bi bi-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- js -->
-    <!-- <script src="../../assests/js/dashbord.js"></script> -->
-    <!-- <script src="../assests/js/catrgories.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

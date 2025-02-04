@@ -37,7 +37,7 @@
             <a href="../Utilisateur/affichens.php" class="nav-link">
                 <i class="bi bi-briefcase"></i> Utilisateurs
             </a>
-            <a href="../Categorie/categories.php" class="nav-link">
+            <a href="../Categorie/router.php?action=index" class="nav-link">
                 <i class="bi bi-grid"></i> Catégories
             </a>
             <a href="../Tag/tags.php" class="nav-link active">
