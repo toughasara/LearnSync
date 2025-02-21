@@ -1,6 +1,6 @@
-# Youdemy - Plateforme de Cours en Ligne
+# LearnSync - Plateforme de Cours en Ligne
 
-Youdemy est une plateforme de cours en ligne qui permet aux étudiants de suivre des cours interactifs et aux enseignants de créer et gérer leurs cours. Le projet est développé en PHP avec une base de données MySQL, en respectant les principes de la programmation orientée objet (OOP).
+LearnSync est une plateforme de cours en ligne qui permet aux étudiants de suivre des cours interactifs et aux enseignants de créer et gérer leurs cours. Le projet est développé en PHP avec une base de données MySQL, en respectant les principes de la programmation orientée objet (OOP).
 
 ---
 
